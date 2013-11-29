@@ -6,9 +6,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.TextView;
 
-public class MarathonFragment extends Fragment {
+public class MarathonFragment
+        extends Fragment {
 
     public static final String TAG = MarathonFragment.class.getSimpleName();
 
@@ -29,4 +32,5 @@ public class MarathonFragment extends Fragment {
 
         return rootView;
     }
+
 }

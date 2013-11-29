@@ -4,12 +4,13 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewConfiguration;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class MarathonView extends ListView {
 
-    int mFirst = 0;
+    private static final int VELOCITY_FRICTION_FACTOR = 10;
+    public static final int TOTAL_MILES = 2000000000; // 2 billion
 
+    private int mFirst = 0;
     public OnMileRanListener mOnMileRanListener;
 
     public MarathonView(final Context context) {
@@ -28,7 +29,9 @@ public class MarathonView extends ListView {
     }
 
     private void init() {
-        setFriction(ViewConfiguration.getScrollFriction() * 2);
+        setFriction(ViewConfiguration.getScrollFriction() * VELOCITY_FRICTION_FACTOR);
+        setDivider(null);
+        setDividerHeight(0);
     }
 
     @Override
@@ -39,7 +42,6 @@ public class MarathonView extends ListView {
 
         if (first != mFirst) {
             dispatchOnMileRan(first);
-            Toast.makeText(getContext(), "Ran " + first + " mile" + ((first == 1) ? "" : "s"), Toast.LENGTH_SHORT).show();
         }
 
         mFirst = first;

@@ -16,10 +16,9 @@ public class MileAdapter extends BaseAdapter {
         mContext = context;
     }
 
-
     @Override
     public int getCount() {
-        return Integer.MAX_VALUE;
+        return MarathonView.TOTAL_MILES;
     }
 
     @Override

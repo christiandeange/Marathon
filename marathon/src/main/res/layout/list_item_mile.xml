@@ -3,8 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/mile_gradient">
+        android:layout_height="wrap_content">
 
     <LinearLayout
             android:orientation="vertical"
@@ -13,8 +12,14 @@
 
         <TextView
                 android:id="@+id/list_item_mile_textview"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:padding="16dp"
+                android:background="@drawable/mile_marker"
+                android:fontFamily="sans-serif-light"
+                android:textColor="#FFFFFF"
+                android:textStyle="italic"
                 android:textSize="30sp"/>
 
     </LinearLayout>
