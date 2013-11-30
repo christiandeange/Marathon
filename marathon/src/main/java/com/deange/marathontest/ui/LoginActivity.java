@@ -1,31 +1,24 @@
-package com.deange.marathon;
+package com.deange.marathontest.ui;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity {
+import com.deange.marathontest.R;
+import com.deange.marathontest.games.BaseGameActivity;
+
+public class LoginActivity extends BaseGameActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_auth);
 
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(MarathonFragment.TAG);
-        if (fragment == null) {
-            fragment = new MarathonFragment();
-        }
+        findViewById(R.id.gplus_signin_button).setOnClickListener(this);
 
-        if (!fragment.isAdded()) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new MarathonFragment(), MarathonFragment.TAG)
-                    .commit();
-        }
     }
 
     @Override
@@ -43,6 +36,25 @@ public class MainActivity extends FragmentActivity {
                                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
             }
+        }
+    }
+
+    @Override
+    public void onSignInFailed() {
+
+    }
+
+    @Override
+    public void onSignInSucceeded() {
+        Toast.makeText(this, "Authenticated!", Toast.LENGTH_SHORT).show();
+
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
+    @Override
+    public void onClick(final View v) {
+        if (v.getId() == R.id.gplus_signin_button) {
+            beginUserInitiatedSignIn();
         }
     }
 }

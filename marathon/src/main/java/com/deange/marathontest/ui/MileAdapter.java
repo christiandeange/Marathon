@@ -1,4 +1,4 @@
-package com.deange.marathon;
+package com.deange.marathontest.ui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.deange.marathontest.R;
 
 public class MileAdapter extends BaseAdapter {
 
