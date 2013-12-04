@@ -34,6 +34,11 @@ public class MileAdapter extends BaseAdapter {
     }
 
     @Override
+    public boolean isEnabled(final int position) {
+        return false;
+    }
+
+    @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
 
         final View view;
@@ -44,7 +49,9 @@ public class MileAdapter extends BaseAdapter {
             view = convertView;
         }
 
-        ((TextView) view.findViewById(R.id.list_item_mile_textview)).setText(getItem(position) + " miles");
+        final int mile = getItem(position);
+        final String markerText = mContext.getResources().getQuantityString(R.plurals.mile_marker, mile, mile);
+        ((TextView) view.findViewById(R.id.list_item_mile_textview)).setText(markerText);
 
         return view;
     }
