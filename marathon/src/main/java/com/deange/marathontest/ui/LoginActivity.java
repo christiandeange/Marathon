@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.deange.marathontest.R;
-import com.deange.marathontest.games.BaseGameActivity;
+import com.deange.marathontest.google.BaseGameActivity;
 
 public class LoginActivity extends BaseGameActivity implements View.OnClickListener {
 

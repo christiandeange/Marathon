@@ -67,5 +67,6 @@ public class MarathonFragment
     @Override
     public void onMileRan(final int mile) {
         StateController.getInstance().setMilesRan(mile);
+
     }
 }

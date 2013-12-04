@@ -42,8 +42,6 @@ public class StateController {
         }
     }
 
-
-
     private StateController(final Context context) {
         mPreferences = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
     }

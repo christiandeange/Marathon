@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package com.deange.marathontest.games;
+package com.deange.marathontest.google;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import com.deange.marathontest.controller.GoogleClients;
 import com.google.android.gms.appstate.AppStateClient;
 import com.google.android.gms.games.GamesClient;
 import com.google.android.gms.plus.PlusClient;
@@ -49,10 +50,10 @@ public abstract class BaseGameActivity extends FragmentActivity
 
     // We expose these constants here because we don't want users of this class
     // to have to know about GameHelper at all.
-    public static final int CLIENT_GAMES = GameHelper.CLIENT_GAMES;
-    public static final int CLIENT_APPSTATE = GameHelper.CLIENT_APPSTATE;
-    public static final int CLIENT_PLUS = GameHelper.CLIENT_PLUS;
-    public static final int CLIENT_ALL = GameHelper.CLIENT_ALL;
+    public static final int CLIENT_GAMES = GoogleClients.CLIENT_GAMES;
+    public static final int CLIENT_APPSTATE = GoogleClients.CLIENT_APPSTATE;
+    public static final int CLIENT_PLUS = GoogleClients.CLIENT_PLUS;
+    public static final int CLIENT_ALL = GoogleClients.CLIENT_ALL;
 
     // Requested clients. By default, that's just the games client.
     protected int mRequestedClients = CLIENT_GAMES;
@@ -75,7 +76,7 @@ public abstract class BaseGameActivity extends FragmentActivity
      *         CLIENT_PLUS and CLIENT_APPSTATE).
      */
     protected BaseGameActivity(int requestedClients) {
-        super();
+        this();
         setRequestedClients(requestedClients);
     }
 
