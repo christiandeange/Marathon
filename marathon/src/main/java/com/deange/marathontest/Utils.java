@@ -1,7 +1,9 @@
 package com.deange.marathontest;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Looper;
+import android.view.View;
 
 public final class Utils {
 
@@ -22,6 +24,17 @@ public final class Utils {
                 }
             }.execute();
         }
+    }
+
+    public static int calculateWindowFlags() {
+
+        int windowFlags = 0;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            windowFlags |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        }
+
+        return windowFlags;
     }
 
     private Utils() {

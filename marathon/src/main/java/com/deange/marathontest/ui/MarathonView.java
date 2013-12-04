@@ -10,7 +10,7 @@ public class MarathonView extends ListView {
     private static final int VELOCITY_FRICTION_FACTOR = 10;
     public static final int TOTAL_MILES = 2000000000; // 2 billion
 
-    private int mFirst = 0;
+    private int mSavedDistance = 0;
     public OnMileRanListener mOnMileRanListener;
 
     public MarathonView(final Context context) {
@@ -39,12 +39,15 @@ public class MarathonView extends ListView {
         super.onScrollChanged(l, t, oldl, oldt);
 
         final int first = getFirstVisiblePosition();
+        final int last = getLastVisiblePosition();
 
-        if (first != mFirst) {
-            dispatchOnMileRan(first);
+        final int distanceMarker = last;
+
+        if (distanceMarker != mSavedDistance) {
+            dispatchOnMileRan(distanceMarker);
         }
 
-        mFirst = first;
+        mSavedDistance = distanceMarker;
     }
 
     protected void dispatchOnMileRan(final int mile) {

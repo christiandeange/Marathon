@@ -97,8 +97,8 @@ public abstract class BaseGameActivity extends FragmentActivity
     }
 
     @Override
-    protected void onCreate(Bundle b) {
-        super.onCreate(b);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         mHelper = new GameHelper(this);
         if (mDebugLog) {
             mHelper.enableDebugLog(mDebugLog, mDebugTag);
