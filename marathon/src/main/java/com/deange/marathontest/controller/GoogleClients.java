@@ -111,6 +111,7 @@ public class GoogleClients {
         // then disconnecting
         if (mPlusClient != null && mPlusClient.isConnected()) {
             mPlusClient.clearDefaultAccount();
+            mPlusClient.disconnect();
         }
 
         // For the games client, signing out means calling signOut and disconnecting

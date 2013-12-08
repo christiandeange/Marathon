@@ -2,7 +2,9 @@ package com.deange.marathontest.google;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CloudInfo {
+import java.util.Comparator;
+
+public class CloudInfo implements Comparable<CloudInfo> {
 
     public static final String MILES_RAN = "miles_ran";
 
@@ -15,5 +17,10 @@ public class CloudInfo {
 
     public void setMilesRan(final int milesRan) {
         mMilesRan = milesRan;
+    }
+
+    @Override
+    public int compareTo(final CloudInfo another) {
+        return another == null ? 1 : Double.compare(getMilesRan(), another.getMilesRan());
     }
 }

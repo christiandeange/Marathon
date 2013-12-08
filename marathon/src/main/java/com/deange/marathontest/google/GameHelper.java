@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
 
+import com.deange.marathontest.BuildConfig;
 import com.deange.marathontest.R;
 import com.deange.marathontest.controller.GoogleClients;
 import com.google.android.gms.appstate.AppStateClient;
@@ -66,6 +67,9 @@ public class GameHelper
 
         /** Called when sign-in succeeds. */
         void onSignInSucceeded();
+
+        /** Called when sign-out succeeds. */
+        void onSignOutSucceeded();
     }
 
     // States we can be in
@@ -128,7 +132,7 @@ public class GameHelper
     SignInFailureReason mSignInFailureReason = null;
 
     // Print debug logs?
-    boolean mDebugLog = false;
+    boolean mDebugLog = BuildConfig.DEBUG;
     String mDebugTag = "GameHelper";
 
     /*
@@ -330,24 +334,6 @@ public class GameHelper
 
     /** Call this method from your Activity's onStop(). */
     public void onStop() {
-        debugLog("onStop, state = " + STATE_NAMES[mState]);
-        assertConfigured("onStop");
-        switch (mState) {
-            case STATE_CONNECTED:
-            case STATE_CONNECTING:
-                // kill connections
-                debugLog("onStop: Killing connections");
-                killConnections();
-                break;
-            case STATE_DISCONNECTED:
-                debugLog("onStop: not connected, so no action taken.");
-                break;
-            default:
-                final String msg =  "onStop: BUG: unexpected state " + STATE_NAMES[mState];
-                logError(msg);
-                throw new IllegalStateException(msg);
-        }
-
         // let go of the Activity reference
         mActivity = null;
     }
@@ -427,6 +413,10 @@ public class GameHelper
         // Ready to disconnect
         debugLog("Proceeding with disconnection.");
         killConnections();
+
+        if (mListener != null) {
+            mListener.onSignOutSucceeded();
+        }
     }
 
     void killConnections() {

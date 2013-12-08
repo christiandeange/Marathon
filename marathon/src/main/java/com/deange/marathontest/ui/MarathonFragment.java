@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 
 import com.deange.marathontest.R;
 import com.deange.marathontest.controller.StateController;
+import com.deange.marathontest.google.CloudHelper;
+import com.deange.marathontest.google.CloudInfo;
 
 public class MarathonFragment
-        extends Fragment implements MarathonView.OnMileRanListener {
+        extends BaseFragment implements MarathonView.OnMileRanListener {
 
     public static final String TAG = MarathonFragment.class.getSimpleName();
     public static final String KEY_MILES_RAN = "milesRan";
@@ -18,11 +20,12 @@ public class MarathonFragment
 
     private MarathonView mMarathonView;
 
+    // Cache an instance to change details on
+    private CloudInfo mCloudInfo = new CloudInfo();
+
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
@@ -68,5 +71,10 @@ public class MarathonFragment
     public void onMileRan(final int mile) {
         StateController.getInstance().setMilesRan(mile);
 
+        // Currently we will update the info on every mile ran,
+        // let the play services library handle optimizing network requests
+        // (Hopefully it does)
+        mCloudInfo.setMilesRan(mile);
+        CloudHelper.updateState(CloudHelper.KEY_GAME_STATE, mCloudInfo);
     }
 }

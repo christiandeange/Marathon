@@ -1,15 +1,22 @@
 package com.deange.marathontest.google;
 
+import android.util.Log;
+
 import com.deange.marathontest.Utils;
+import com.deange.marathontest.controller.GoogleClients;
 import com.deange.marathontest.controller.GsonController;
 import com.google.android.gms.appstate.AppStateClient;
+import com.google.android.gms.appstate.OnStateLoadedListener;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 public final class CloudHelper {
 
+    private static final String TAG = CloudHelper.class.getSimpleName();
     private static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
+
+    public static final int KEY_GAME_STATE = 0;
 
     public static byte[] convert(final CloudInfo cloudInfo) {
         final String serializedInfo = GsonController.getInstance().toJson(cloudInfo);
@@ -23,26 +30,60 @@ public final class CloudHelper {
         return cloudInfo;
     }
 
-    public static void updateState(final AppStateClient client, final int stateKey, final CloudInfo cloudInfo) {
-        Utils.runAsynchronouslyIfNecessary(new StateUpdater(client, stateKey, cloudInfo));
+    public static void updateState(final int stateKey, final CloudInfo cloudInfo) {
+        final AppStateClient client = GoogleClients.getInstance().getAppStateClient();
+        if (client.isConnected()) {
+            final byte[] infoInBytes = convert(cloudInfo);
+            client.updateState(stateKey, infoInBytes);
+        }
     }
 
-    public static class StateUpdater implements Runnable {
+    public static void getState(final OnStateLoadedListener listener, final int stateKey) {
+        final AppStateClient client = GoogleClients.getInstance().getAppStateClient();
+        if (client.isConnected()) {
+            client.loadState(listener, stateKey);
+        }
+    }
 
-        final AppStateClient mClient;
-        final int mStateKey;
-        final CloudInfo mCloudInfo;
+    public static CloudInfo resolveConflict(final CloudInfo server, final CloudInfo local) {
+        Log.v(TAG, "resolveConflict()");
+        Log.v(TAG, "local = " + local);
+        Log.v(TAG, "server = " + server);
 
-        public StateUpdater(final AppStateClient client, final int stateKey, final CloudInfo cloudInfo) {
-            mClient = client;
-            mStateKey = stateKey;
-            mCloudInfo = cloudInfo;
+        // Let's try to do a "smart" resolution
+        // Say we have both server and local data for this user.
+        // We want to grab the one with more...progress. That can be identified by
+        // the miles ran parameter (since essentially that is the objective of the game)
+        // We grab the data which has the most progress in that sense
+
+        // Cases:   server notnull  local notnull   > one with more miles ran
+        //          server notnull  local null      > server
+        //          server null     local notnull   > local
+        //          server null     local null      > null (no data stored)
+
+        final CloudInfo resolvedInfo;
+
+        if (server != null) {
+
+            if (server.compareTo(local) > 0) {
+                // Server is newer
+                resolvedInfo = server;
+
+            } else {
+                //Use local, doesn't matter if it is null
+                resolvedInfo = local;
+            }
+
+        } else {
+            // Server info is null, use local, doesn't matter if null
+            resolvedInfo = local;
         }
 
-        @Override
-        public void run() {
+        return resolvedInfo;
+    }
 
-        }
+    private CloudHelper() {
+        // Not instantiable
     }
 
 }

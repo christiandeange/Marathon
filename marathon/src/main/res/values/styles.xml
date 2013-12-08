@@ -1,7 +1,10 @@
 <resources>
 
-    <style name="AppTheme" parent="android:Theme.Holo.Light.NoActionBar.Fullscreen">
+    <style name="AppTheme" parent="android:Theme.Holo.Light">
+    </style>
 
+    <style name="AppTheme.TransparentActionBar" parent="AppTheme">
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
 </resources>

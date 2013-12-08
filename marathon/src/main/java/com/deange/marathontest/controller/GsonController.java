@@ -1,5 +1,7 @@
 package com.deange.marathontest.controller;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 public class GsonController {

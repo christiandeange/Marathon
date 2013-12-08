@@ -33,6 +33,12 @@ public class StateController {
         }
     }
 
+    public void clear() {
+        synchronized (sLock) {
+            mPreferences.edit().clear().apply();
+        }
+    }
+
     public static StateController getInstance() {
         synchronized (sLock) {
             if (sInstance == null) {

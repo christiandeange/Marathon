@@ -56,7 +56,7 @@ public abstract class BaseGameActivity extends FragmentActivity
     public static final int CLIENT_ALL = GoogleClients.CLIENT_ALL;
 
     // Requested clients. By default, that's just the games client.
-    protected int mRequestedClients = CLIENT_GAMES;
+    protected int mRequestedClients = CLIENT_ALL;
 
     // stores any additional scopes.
     private String[] mAdditionalScopes;
@@ -124,15 +124,15 @@ public abstract class BaseGameActivity extends FragmentActivity
         mHelper.onActivityResult(request, response, data);
     }
 
-    protected GamesClient getGamesClient() {
+    public GamesClient getGamesClient() {
         return mHelper.getGamesClient();
     }
 
-    protected AppStateClient getAppStateClient() {
+    public AppStateClient getAppStateClient() {
         return mHelper.getAppStateClient();
     }
 
-    protected PlusClient getPlusClient() {
+    public PlusClient getPlusClient() {
         return mHelper.getPlusClient();
     }
 
