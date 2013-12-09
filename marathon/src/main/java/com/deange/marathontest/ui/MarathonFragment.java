@@ -2,6 +2,7 @@ package com.deange.marathontest.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +27,13 @@ public class MarathonFragment
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
+        Log.v(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+        Log.v(TAG, "onCreateView()");
 
         int milesRan = 0;
         int offset = 0;
@@ -58,6 +60,7 @@ public class MarathonFragment
 
     @Override
     public void onSaveInstanceState(final Bundle outState) {
+        Log.v(TAG, "onSaveInstanceState()");
 
         final int index = mMarathonView.getFirstVisiblePosition();
         final View view = mMarathonView.getChildAt(0);

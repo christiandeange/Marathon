@@ -1,4 +1,4 @@
-package com.deange.marathontest;
+package com.deange.marathontest.utils;
 
 import android.os.Build;
 import android.view.View;
@@ -9,11 +9,12 @@ public final class Utils {
 
         int windowFlags = 0;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (PlatformUtils.hasKitKat()) {
             windowFlags |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
             windowFlags |= View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
             windowFlags |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
             windowFlags |= View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+            windowFlags |= View.SYSTEM_UI_FLAG_FULLSCREEN;
             windowFlags |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
             windowFlags |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
         }

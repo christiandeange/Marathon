@@ -1,29 +1,29 @@
 package com.deange.marathontest.ui;
 
-import android.app.ActionBar;
+import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.View;
+import android.widget.PopupMenu;
 
+import com.deange.marathontest.utils.PlatformUtils;
 import com.deange.marathontest.R;
-import com.deange.marathontest.Utils;
+import com.deange.marathontest.utils.Utils;
 import com.deange.marathontest.controller.StateController;
 import com.deange.marathontest.google.BaseGameActivity;
 
-public class MainActivity extends BaseGameActivity {
+public class MainActivity
+        extends BaseGameActivity
+        implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+
+    private PopupMenu mPopupMenu;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-
-        final int fullscreenFlag = WindowManager.LayoutParams.FLAG_FULLSCREEN;
-        getWindow().setFlags(fullscreenFlag, fullscreenFlag);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -49,7 +49,7 @@ public class MainActivity extends BaseGameActivity {
     }
 
     @Override
-    public boolean onMenuItemSelected(final int featureId, final MenuItem item) {
+    public boolean onMenuItemClick(final MenuItem item) {
 
         boolean handled = false;
 
@@ -57,16 +57,32 @@ public class MainActivity extends BaseGameActivity {
             case R.id.menu_logout:
                 handled = true;
                 signOut();
+                break;
         }
 
-        return handled || super.onMenuItemSelected(featureId, item);
+        return handled;
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     private void setupActionBar() {
-        final ActionBar actionBar = getActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        actionBar.setDisplayShowHomeEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(false);
+
+        final View overflowView = findViewById(R.id.activity_overflow_button);
+        overflowView.setOnClickListener(this);
+
+        mPopupMenu = new PopupMenu(this, overflowView);
+        mPopupMenu.setOnMenuItemClickListener(this);
+        mPopupMenu.inflate(R.menu.main_menu);
+
+        if (PlatformUtils.hasKitKat()) {
+            overflowView.setOnTouchListener(mPopupMenu.getDragToOpenListener());
+        }
+    }
+
+    @Override
+    public void onClick(final View v) {
+        if (v.getId() == R.id.activity_overflow_button) {
+            mPopupMenu.show();
+        }
     }
 
     @Override

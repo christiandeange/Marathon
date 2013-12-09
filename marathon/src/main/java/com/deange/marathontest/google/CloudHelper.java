@@ -2,14 +2,12 @@ package com.deange.marathontest.google;
 
 import android.util.Log;
 
-import com.deange.marathontest.Utils;
 import com.deange.marathontest.controller.GoogleClients;
 import com.deange.marathontest.controller.GsonController;
 import com.google.android.gms.appstate.AppStateClient;
 import com.google.android.gms.appstate.OnStateLoadedListener;
 
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 public final class CloudHelper {
 

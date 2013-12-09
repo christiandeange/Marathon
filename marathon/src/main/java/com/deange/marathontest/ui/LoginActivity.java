@@ -4,25 +4,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 
 import com.deange.marathontest.R;
-import com.deange.marathontest.Utils;
+import com.deange.marathontest.utils.Utils;
 import com.deange.marathontest.controller.StateController;
 import com.deange.marathontest.google.BaseGameActivity;
 import com.deange.marathontest.google.CloudHelper;
 import com.deange.marathontest.google.CloudInfo;
 import com.google.android.gms.appstate.OnStateLoadedListener;
 
-public class LoginActivity extends BaseGameActivity implements View.OnClickListener, OnStateLoadedListener {
+public class LoginActivity
+        extends BaseGameActivity
+        implements View.OnClickListener, OnStateLoadedListener {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         Log.v(TAG, "onCreate()");
-
-        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);

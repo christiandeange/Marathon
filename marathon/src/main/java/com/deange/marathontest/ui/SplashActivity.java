@@ -3,10 +3,9 @@ package com.deange.marathontest.ui;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Window;
 
 import com.deange.marathontest.R;
-import com.deange.marathontest.Utils;
+import com.deange.marathontest.utils.Utils;
 import com.deange.marathontest.google.BaseGameActivity;
 
 public class SplashActivity extends BaseGameActivity {
@@ -17,8 +16,6 @@ public class SplashActivity extends BaseGameActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-
-        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
