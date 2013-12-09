@@ -3,10 +3,10 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#80BEBEBE">
 
-    <LinearLayout
-            android:orientation="vertical"
+    <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/mile_height">
 
@@ -15,6 +15,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/list_item_mile_checkers"
                 android:padding="16dp"
                 android:background="@drawable/mile_marker"
                 android:fontFamily="sans-serif-light"
@@ -22,6 +25,17 @@
                 android:textStyle="italic"
                 android:textSize="30sp"/>
 
-    </LinearLayout>
+        <ImageView
+                android:id="@+id/list_item_mile_checkers"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/checker_pattern_background"/>
+
+    </RelativeLayout>
 
 </LinearLayout>

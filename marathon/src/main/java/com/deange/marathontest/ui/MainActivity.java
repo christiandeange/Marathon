@@ -59,7 +59,6 @@ public class MainActivity extends BaseGameActivity {
                 signOut();
         }
 
-
         return handled || super.onMenuItemSelected(featureId, item);
     }
 

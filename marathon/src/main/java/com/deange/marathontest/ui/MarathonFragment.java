@@ -17,6 +17,7 @@ public class MarathonFragment
     public static final String TAG = MarathonFragment.class.getSimpleName();
     public static final String KEY_MILES_RAN = "milesRan";
     public static final String KEY_MILES_OFFSET = "milesOffset";
+    public static final int MILES_UPDATE_STATE_INTERVAL = 50;
 
     private MarathonView mMarathonView;
 
@@ -69,12 +70,16 @@ public class MarathonFragment
 
     @Override
     public void onMileRan(final int mile) {
+        // Locally cache the amount of miles ran
         StateController.getInstance().setMilesRan(mile);
 
-        // Currently we will update the info on every mile ran,
-        // let the play services library handle optimizing network requests
-        // (Hopefully it does)
-        mCloudInfo.setMilesRan(mile);
-        CloudHelper.updateState(CloudHelper.KEY_GAME_STATE, mCloudInfo);
+        if (mile % MILES_UPDATE_STATE_INTERVAL == 0) {
+            // Currently we will update the info on every 10th mile ran,
+            // let the play services library handle optimizing network requests
+            // (Hopefully it does)
+            mCloudInfo.setMilesRan(mile);
+            CloudHelper.updateState(CloudHelper.KEY_GAME_STATE, mCloudInfo);
+        }
+
     }
 }
