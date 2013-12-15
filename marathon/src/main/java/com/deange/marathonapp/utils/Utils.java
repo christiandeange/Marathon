@@ -1,6 +1,5 @@
-package com.deange.marathontest.utils;
+package com.deange.marathonapp.utils;
 
-import android.os.Build;
 import android.view.View;
 
 public final class Utils {

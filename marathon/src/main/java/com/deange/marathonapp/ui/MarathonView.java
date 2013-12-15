@@ -1,4 +1,4 @@
-package com.deange.marathontest.ui;
+package com.deange.marathonapp.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;

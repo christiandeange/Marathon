@@ -1,12 +1,12 @@
-package com.deange.marathontest.ui;
+package com.deange.marathonapp.ui;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import com.deange.marathontest.R;
-import com.deange.marathontest.utils.Utils;
-import com.deange.marathontest.google.BaseGameActivity;
+import com.deange.marathonapp.R;
+import com.deange.marathonapp.utils.Utils;
+import com.deange.marathonapp.google.BaseGameActivity;
 
 public class SplashActivity extends BaseGameActivity {
 

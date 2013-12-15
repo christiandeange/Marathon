@@ -1,6 +1,4 @@
-package com.deange.marathontest.controller;
-
-import android.util.Log;
+package com.deange.marathonapp.controller;
 
 import com.google.gson.Gson;
 

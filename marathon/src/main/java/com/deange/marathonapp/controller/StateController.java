@@ -1,4 +1,4 @@
-package com.deange.marathontest.controller;
+package com.deange.marathonapp.controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;

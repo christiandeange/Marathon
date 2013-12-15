@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Marathon</string>
-    <string name="app_game_id">271426096411</string>
+    <string name="app_id">351826938965</string>
 
     <plurals name="mile_marker">
         <item quantity="one">%s mile</item>

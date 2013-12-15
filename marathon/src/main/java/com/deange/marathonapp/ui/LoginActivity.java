@@ -1,16 +1,16 @@
-package com.deange.marathontest.ui;
+package com.deange.marathonapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.deange.marathontest.R;
-import com.deange.marathontest.utils.Utils;
-import com.deange.marathontest.controller.StateController;
-import com.deange.marathontest.google.BaseGameActivity;
-import com.deange.marathontest.google.CloudHelper;
-import com.deange.marathontest.google.CloudInfo;
+import com.deange.marathonapp.R;
+import com.deange.marathonapp.utils.Utils;
+import com.deange.marathonapp.controller.StateController;
+import com.deange.marathonapp.google.BaseGameActivity;
+import com.deange.marathonapp.google.CloudHelper;
+import com.deange.marathonapp.google.CloudInfo;
 import com.google.android.gms.appstate.OnStateLoadedListener;
 
 public class LoginActivity
@@ -98,6 +98,7 @@ public class LoginActivity
     private void startMarathonActivity() {
         Log.v(TAG, "startMarathonActivity()");
         startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 
 }

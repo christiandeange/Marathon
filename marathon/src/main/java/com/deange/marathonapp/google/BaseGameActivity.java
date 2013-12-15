@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.deange.marathontest.google;
+package com.deange.marathonapp.google;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
-import com.deange.marathontest.controller.GoogleClients;
+import com.deange.marathonapp.controller.GoogleClients;
 import com.google.android.gms.appstate.AppStateClient;
 import com.google.android.gms.games.GamesClient;
 import com.google.android.gms.plus.PlusClient;

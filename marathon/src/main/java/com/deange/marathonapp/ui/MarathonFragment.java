@@ -1,16 +1,15 @@
-package com.deange.marathontest.ui;
+package com.deange.marathonapp.ui;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.deange.marathontest.R;
-import com.deange.marathontest.controller.StateController;
-import com.deange.marathontest.google.CloudHelper;
-import com.deange.marathontest.google.CloudInfo;
+import com.deange.marathonapp.R;
+import com.deange.marathonapp.controller.StateController;
+import com.deange.marathonapp.google.CloudHelper;
+import com.deange.marathonapp.google.CloudInfo;
 
 public class MarathonFragment
         extends BaseFragment implements MarathonView.OnMileRanListener {
@@ -35,8 +34,8 @@ public class MarathonFragment
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         Log.v(TAG, "onCreateView()");
 
-        int milesRan = 0;
-        int offset = 0;
+        final int milesRan;
+        final int offset;
 
         if (savedInstanceState != null) {
             // Recovering from rotation, restore the index/offset
@@ -46,6 +45,7 @@ public class MarathonFragment
         } else {
             // First fragment load, retrieve saved value
             milesRan = StateController.getInstance().getMilesRan();
+            offset = 0;
         }
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -69,6 +69,15 @@ public class MarathonFragment
         outState.putInt(KEY_MILES_RAN, index);
         outState.putInt(KEY_MILES_OFFSET, offset);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.v(TAG, "onDestroy()");
+
+        // Our last breath...save this state
+        CloudHelper.updateState(CloudHelper.KEY_GAME_STATE, mCloudInfo);
+        super.onDestroy();
     }
 
     @Override

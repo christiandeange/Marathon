@@ -1,8 +1,6 @@
-package com.deange.marathontest.google;
+package com.deange.marathonapp.google;
 
 import com.google.gson.annotations.SerializedName;
-
-import java.util.Comparator;
 
 public class CloudInfo implements Comparable<CloudInfo> {
 

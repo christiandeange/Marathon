@@ -1,9 +1,9 @@
-package com.deange.marathontest.google;
+package com.deange.marathonapp.google;
 
 import android.util.Log;
 
-import com.deange.marathontest.controller.GoogleClients;
-import com.deange.marathontest.controller.GsonController;
+import com.deange.marathonapp.controller.GoogleClients;
+import com.deange.marathonapp.controller.GsonController;
 import com.google.android.gms.appstate.AppStateClient;
 import com.google.android.gms.appstate.OnStateLoadedListener;
 

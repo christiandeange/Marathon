@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.deange.marathontest.google;
+package com.deange.marathonapp.google;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -27,16 +27,16 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Pair;
 
-import com.deange.marathontest.BuildConfig;
-import com.deange.marathontest.R;
-import com.deange.marathontest.controller.GoogleClients;
+import com.deange.marathonapp.BuildConfig;
+import com.deange.marathonapp.R;
+import com.deange.marathonapp.controller.GoogleClients;
 import com.google.android.gms.appstate.AppStateClient;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -958,10 +958,14 @@ public class GameHelper
             return;
         }
 
+        final String gamesKey = "com.google.android.gms.games.APP_ID";
+        final String stateKey = "com.google.android.gms.appstate.APP_ID";
+
         debugLog("**** To help you debug, here is the information about this app");
-        debugLog("**** Package name         : " + getContext().getPackageName());
-        debugLog("**** Cert SHA1 fingerprint: " + getSHA1CertFingerprint());
-        debugLog("**** App ID from          : " + getAppIdFromResource());
+        debugLog("**** Package name          : " + getContext().getPackageName());
+        debugLog("**** Cert SHA1 fingerprint : " + getSHA1CertFingerprint());
+        debugLog("**** Games ID              : " + getAppMetadata(gamesKey));
+        debugLog("**** App State ID          : " + getAppMetadata(stateKey));
         debugLog("****");
         debugLog("**** Check that the above information matches your setup in ");
         debugLog("**** Developer Console. Also, check that you're logging in with the");
@@ -972,16 +976,17 @@ public class GameHelper
         debugLog("****   http://developers.google.com/games/services/android/troubleshooting");
     }
 
-    String getAppIdFromResource() {
+    String getAppMetadata(final String key) {
         try {
-            final Resources res = getContext().getResources();
-            final String pkgName = getContext().getPackageName();
-            final int res_id = res.getIdentifier("app_id", "string", pkgName);
-            return res.getString(res_id);
-        } catch (final Exception ex) {
-            ex.printStackTrace();
-            return "??? (failed to retrieve APP ID)";
+            final ApplicationInfo appInfo = getContext().getPackageManager().getApplicationInfo(getContext().getPackageName(), PackageManager.GET_META_DATA);
+            final Bundle metadata = appInfo.metaData;
+            return metadata.getString(key);
+
+        } catch (final PackageManager.NameNotFoundException e) {
+            Log.e(mDebugTag, "Cannot resolve PackageManager", e);
         }
+
+        return "[NOT FOUND]";
     }
 
     String getSHA1CertFingerprint() {
@@ -1015,11 +1020,12 @@ public class GameHelper
     }
 
     void byteToString(final StringBuilder sb, final byte b) {
-        final int unsigned_byte = b < 0 ? b + 256 : b;
-        final int hi = unsigned_byte / 16;
-        final int lo = unsigned_byte % 16;
-        sb.append("0123456789ABCDEF".substring(hi, hi + 1));
-        sb.append("0123456789ABCDEF".substring(lo, lo + 1));
+        final String hexAlphabet = "0123456789ABCDEF";
+        final int unsignedByte = b < 0 ? b + 256 : b;
+        final int hi = unsignedByte / 16;
+        final int lo = unsignedByte % 16;
+        sb.append(hexAlphabet.charAt(hi));
+        sb.append(hexAlphabet.charAt(lo));
     }
 
 }

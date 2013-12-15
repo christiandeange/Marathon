@@ -1,4 +1,4 @@
-package com.deange.marathontest.ui;
+package com.deange.marathonapp.ui;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -10,11 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
-import com.deange.marathontest.utils.PlatformUtils;
-import com.deange.marathontest.R;
-import com.deange.marathontest.utils.Utils;
-import com.deange.marathontest.controller.StateController;
-import com.deange.marathontest.google.BaseGameActivity;
+import com.deange.marathonapp.utils.PlatformUtils;
+import com.deange.marathonapp.R;
+import com.deange.marathonapp.utils.Utils;
+import com.deange.marathonapp.controller.StateController;
+import com.deange.marathonapp.google.BaseGameActivity;
 
 public class MainActivity
         extends BaseGameActivity
