@@ -17,14 +17,22 @@ public final class CloudHelper {
     public static final int KEY_GAME_STATE = 0;
 
     public static byte[] convert(final CloudInfo cloudInfo) {
-        final String serializedInfo = GsonController.getInstance().toJson(cloudInfo);
-        final byte[] bytes = serializedInfo.getBytes(DEFAULT_CHARSET);
+
+        byte[] bytes = null;
+        if (cloudInfo != null) {
+            final String serializedInfo = GsonController.getInstance().toJson(cloudInfo);
+            bytes = serializedInfo.getBytes(DEFAULT_CHARSET);
+        }
         return bytes;
     }
 
     public static CloudInfo convert(final byte[] bytes) {
-        final String serializedInfo = new String(bytes, DEFAULT_CHARSET);
-        final CloudInfo cloudInfo = GsonController.getInstance().fromJson(serializedInfo, CloudInfo.class);
+
+        CloudInfo cloudInfo = null;
+        if (bytes != null) {
+            final String serializedInfo = new String(bytes, DEFAULT_CHARSET);
+            cloudInfo = GsonController.getInstance().fromJson(serializedInfo, CloudInfo.class);
+        }
         return cloudInfo;
     }
 
@@ -68,12 +76,12 @@ public final class CloudHelper {
                 resolvedInfo = server;
 
             } else {
-                //Use local, doesn't matter if it is null
+                //Use local, doesn't matter if null
                 resolvedInfo = local;
             }
 
         } else {
-            // Server info is null, use local, doesn't matter if null
+            // Server info is null, use local. Doesn't matter if null
             resolvedInfo = local;
         }
 

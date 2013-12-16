@@ -88,6 +88,9 @@ public class LoginActivity
 
         final CloudInfo resolvedInfo = CloudHelper.resolveConflict(serverInfo, localInfo);
 
+        // Signal to the AppStateClient that we have resolved the right version of the info
+        getAppStateClient().resolveState(this, stateKey, resolvedVersion, CloudHelper.convert(resolvedInfo));
+
         if (resolvedInfo != null) {
             StateController.getInstance().setMilesRan(resolvedInfo.getMilesRan());
         }

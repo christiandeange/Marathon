@@ -54,14 +54,10 @@ public class MainApplication extends Application {
                 final byte[] bytes = md.digest();
                 final StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < bytes.length; i++) {
-                    if (((int) bytes[i] & 0xff) < 0x10) {
-                        sb.append("0");
-                    }
-                    sb.append(Long.toString((int) bytes[i] & 0xff, 16));
-
-                    if (i != bytes.length - 1) {
-                        sb.append(':');
-                    }
+                    if (i > 0) sb.append(':');
+                    final int oneByte = (int) bytes[i] & 0xff;
+                    sb.append((oneByte < 0x10) ? "0" : "");
+                    sb.append(Long.toString(oneByte, 16));
                 }
                 hashKey = sb.toString().toUpperCase();
             }
