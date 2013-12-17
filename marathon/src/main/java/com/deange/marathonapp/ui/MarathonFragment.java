@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.deange.marathonapp.R;
 import com.deange.marathonapp.controller.StateController;
 import com.deange.marathonapp.google.CloudHelper;
-import com.deange.marathonapp.google.CloudInfo;
+import com.deange.marathonapp.model.CloudInfo;
 
 public class MarathonFragment
         extends BaseFragment implements MarathonView.OnMileRanListener {

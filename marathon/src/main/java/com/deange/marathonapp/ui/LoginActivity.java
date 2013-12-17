@@ -10,7 +10,7 @@ import com.deange.marathonapp.utils.Utils;
 import com.deange.marathonapp.controller.StateController;
 import com.deange.marathonapp.google.BaseGameActivity;
 import com.deange.marathonapp.google.CloudHelper;
-import com.deange.marathonapp.google.CloudInfo;
+import com.deange.marathonapp.model.CloudInfo;
 import com.google.android.gms.appstate.OnStateLoadedListener;
 
 public class LoginActivity

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.deange.marathonapp.controller.GoogleClients;
 import com.deange.marathonapp.controller.GsonController;
+import com.deange.marathonapp.model.CloudInfo;
 import com.google.android.gms.appstate.AppStateClient;
 import com.google.android.gms.appstate.OnStateLoadedListener;
 
@@ -20,7 +21,7 @@ public final class CloudHelper {
 
         byte[] bytes = null;
         if (cloudInfo != null) {
-            final String serializedInfo = GsonController.getInstance().toJson(cloudInfo);
+            final String serializedInfo = cloudInfo.serialize();
             bytes = serializedInfo.getBytes(DEFAULT_CHARSET);
         }
         return bytes;
@@ -31,7 +32,7 @@ public final class CloudHelper {
         CloudInfo cloudInfo = null;
         if (bytes != null) {
             final String serializedInfo = new String(bytes, DEFAULT_CHARSET);
-            cloudInfo = GsonController.getInstance().fromJson(serializedInfo, CloudInfo.class);
+            cloudInfo = CloudInfo.deserialize(serializedInfo, CloudInfo.class);
         }
         return cloudInfo;
     }

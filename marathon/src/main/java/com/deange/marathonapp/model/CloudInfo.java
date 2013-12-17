@@ -1,8 +1,10 @@
-package com.deange.marathonapp.google;
+package com.deange.marathonapp.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class CloudInfo implements Comparable<CloudInfo> {
+public class CloudInfo
+        extends BaseModel
+        implements Comparable<CloudInfo> {
 
     public static final String MILES_RAN = "miles_ran";
 
