@@ -1,9 +1,12 @@
 package com.deange.marathonapp.utils;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.view.View;
 
 public final class Utils {
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public static int calculateWindowFlags() {
 
         int windowFlags = 0;

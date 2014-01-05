@@ -4,11 +4,12 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#80BEBEBE">
+        android:background="#D8D8D8">
 
     <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/mile_height">
+            android:layout_height="@dimen/mile_height"
+            android:background="@null">
 
         <TextView
                 android:id="@+id/list_item_mile_textview"
@@ -25,6 +26,17 @@
                 android:textStyle="italic"
                 android:textSize="30sp"/>
 
+        <LinearLayout
+                android:id="@+id/list_item_mile_markers_container"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="2dp"
+                android:visibility="gone"
+                android:orientation="vertical" />
+
         <ImageView
                 android:id="@+id/list_item_mile_checkers"
                 android:layout_width="wrap_content"
@@ -34,6 +46,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="4dp"
+                android:visibility="gone"
                 android:background="@drawable/checker_pattern_background"/>
 
     </RelativeLayout>

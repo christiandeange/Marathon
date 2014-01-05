@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.deange.marathonapp.R;
@@ -12,10 +13,17 @@ import com.deange.marathonapp.R;
 public class MileAdapter extends BaseAdapter {
 
     public static final String TAG = MileAdapter.class.getSimpleName();
+
+    private static final int MARKER_COUNT = 10;
+
+    private static final boolean SHOW_MILE_MARKERS = false;
+
     private final Context mContext;
+    private final LayoutInflater mInflater;
 
     public MileAdapter(final Context context) {
         mContext = context;
+        mInflater = LayoutInflater.from(mContext);
     }
 
     @Override
@@ -44,9 +52,35 @@ public class MileAdapter extends BaseAdapter {
         final View view;
 
         if (convertView == null) {
-            view = LayoutInflater.from(mContext).inflate(R.layout.list_item_mile, null);
+            view = mInflater.inflate(R.layout.list_item_mile, null);
+
+            final LinearLayout markersContainer = (LinearLayout) view.findViewById(R.id.list_item_mile_markers_container);
+
+            for (int i = 0; i < MARKER_COUNT; i++) {
+
+                final View markerView = mInflater.inflate(R.layout.list_item_mile_marker, null);
+                final TextView markerTextView = (TextView) markerView.findViewById(R.id.list_item_marker_text);
+
+                final String markerText = (i == 0) ? "-" : String.valueOf(i);
+                markerTextView.setText(markerText);
+                markersContainer.addView(markerView);
+
+                // Each one of the markers takes up an equal amount of space
+                ((LinearLayout.LayoutParams) markerView.getLayoutParams()).weight = 1;
+            }
+
         } else {
             view = convertView;
+        }
+
+        // TODO Maybe change this to a user-defined setting?
+        if (SHOW_MILE_MARKERS) {
+            view.findViewById(R.id.list_item_mile_markers_container).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.list_item_mile_checkers).setVisibility(View.GONE);
+
+        } else {
+            view.findViewById(R.id.list_item_mile_markers_container).setVisibility(View.GONE);
+            view.findViewById(R.id.list_item_mile_checkers).setVisibility(View.VISIBLE);
         }
 
         final int mile = getItem(position);
