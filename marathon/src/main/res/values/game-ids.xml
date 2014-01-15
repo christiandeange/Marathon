@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Google Play game services IDs.
+Save this file as res/values/games-ids.xml in your project.
+-->
+<resources>
+    <string name="achievement_marathon_man">CgkI1ZiU1J4KEAIQAg</string>
+    <string name="achievement_i_would_walk_500_miles">CgkI1ZiU1J4KEAIQAw</string>
+    <string name="achievement_and_i_would_walk_500_more">CgkI1ZiU1J4KEAIQBA</string>
+    <string name="achievement_walk_the_nile">CgkI1ZiU1J4KEAIQBQ</string>
+    <string name="achievement_one_giant_marathon_for_mankind">CgkI1ZiU1J4KEAIQBg</string>
+
+    <string name="leaderboard_total_distance_ran">CgkI1ZiU1J4KEAIQAQ</string>
+    
+</resources>
