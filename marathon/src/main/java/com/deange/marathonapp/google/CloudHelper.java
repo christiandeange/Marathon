@@ -63,7 +63,7 @@ public final class CloudHelper {
         // the miles ran parameter (since essentially that is the objective of the game)
         // We grab the data which has the most progress in that sense
 
-        // Cases:   server notnull  local notnull   > one with more miles ran
+        // Cases:   server notnull  local notnull   > more recently-saved
         //          server notnull  local null      > server
         //          server null     local notnull   > local
         //          server null     local null      > null (no data stored)
