@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.util.Log;
 
+import com.deange.marathonapp.controller.AchievementsController;
 import com.deange.marathonapp.controller.GoogleClients;
 import com.deange.marathonapp.controller.GsonController;
 import com.deange.marathonapp.controller.StateController;
@@ -37,9 +38,13 @@ public class MainApplication extends Application {
          */
         GoogleClients.createInstance(getApplicationContext());
 
+        /**
+         * Instantiate the achievements controller
+         */
+        AchievementsController.createInstance(getApplicationContext());
+
 
         Log.i(TAG, "Signing key hash: " + getSignatureHashKey(getApplicationContext()));
-
     }
 
     public static String getSignatureHashKey(final Context context) {

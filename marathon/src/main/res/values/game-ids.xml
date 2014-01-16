@@ -11,5 +11,5 @@ Save this file as res/values/games-ids.xml in your project.
     <string name="achievement_one_giant_marathon_for_mankind">CgkI1ZiU1J4KEAIQBg</string>
 
     <string name="leaderboard_total_distance_ran">CgkI1ZiU1J4KEAIQAQ</string>
-    
+
 </resources>

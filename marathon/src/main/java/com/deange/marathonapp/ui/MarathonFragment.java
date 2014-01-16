@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.deange.marathonapp.R;
+import com.deange.marathonapp.controller.AchievementsController;
+import com.deange.marathonapp.controller.GoogleClients;
 import com.deange.marathonapp.controller.StateController;
 import com.deange.marathonapp.google.CloudHelper;
 import com.deange.marathonapp.model.CloudInfo;
@@ -84,6 +86,11 @@ public class MarathonFragment
     public void onMileRan(final int mile) {
         // Locally cache the amount of miles ran
         StateController.getInstance().setMilesRan(mile);
+
+        // Notify the achievements controller of a mile update
+        if (GoogleClients.getInstance().getGamesClient().isConnected()) {
+            AchievementsController.getInstance().notifyMileRan(mile);
+        }
 
         if (mile % MILES_UPDATE_STATE_INTERVAL == 0) {
             // Currently we will update the info on every 10th mile ran,

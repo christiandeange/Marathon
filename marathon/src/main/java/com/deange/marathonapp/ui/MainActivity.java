@@ -10,11 +10,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
+import com.deange.marathonapp.controller.GoogleClients;
 import com.deange.marathonapp.utils.PlatformUtils;
 import com.deange.marathonapp.R;
 import com.deange.marathonapp.utils.Utils;
 import com.deange.marathonapp.controller.StateController;
 import com.deange.marathonapp.google.BaseGameActivity;
+import com.google.android.gms.games.GamesClient;
 
 public class MainActivity
         extends BaseGameActivity
@@ -51,9 +53,22 @@ public class MainActivity
     @Override
     public boolean onMenuItemClick(final MenuItem item) {
 
+        final GamesClient client = GoogleClients.getInstance().getGamesClient();
         boolean handled = false;
 
         switch (item.getItemId()) {
+
+            case R.id.menu_achievements:
+                startActivityForResult(client.getAchievementsIntent(), 0);
+                handled = true;
+                break;
+
+            case R.id.menu_leaderboards:
+                startActivityForResult(client.getLeaderboardIntent(
+                        getString(R.string.leaderboard_total_distance_ran)), 0);
+                handled = true;
+                break;
+
             case R.id.menu_logout:
                 handled = true;
                 signOut();

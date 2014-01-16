@@ -17,9 +17,9 @@ public class GoogleClients {
     private Context mContext;
 
     // Client objects we manage. If a given client is not enabled, it is null.
-    GamesClient mGamesClient = null;
-    PlusClient mPlusClient = null;
-    AppStateClient mAppStateClient = null;
+    private GamesClient mGamesClient = null;
+    private PlusClient mPlusClient = null;
+    private AppStateClient mAppStateClient = null;
 
     // What clients we manage (OR-able values, can be combined as flags)
     public final static int CLIENT_NONE = 0x00;

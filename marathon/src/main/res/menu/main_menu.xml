@@ -4,8 +4,16 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_logout"
-        android:title="Sign Out"
-        android:showAsAction="never" />
+            android:id="@+id/menu_achievements"
+            android:title="@string/menu_achievements"
+            android:showAsAction="never" />
+    <item
+            android:id="@+id/menu_leaderboards"
+            android:title="@string/menu_leaderboards"
+            android:showAsAction="never" />
+    <item
+            android:id="@+id/menu_logout"
+            android:title="@string/menu_sign_out"
+            android:showAsAction="never" />
 
 </menu>
