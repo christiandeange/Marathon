@@ -69,6 +69,7 @@ import java.util.List;
  * @author Bruno Oliveira (Google)
  *
  */
+@SuppressWarnings("UnusedDeclaration")
 public class IabHelper {
     // Is debug logging enabled?
     boolean mDebugLog = false;
@@ -399,9 +400,7 @@ public class IabHelper {
             mPurchaseListener = listener;
             mPurchasingItemType = itemType;
             act.startIntentSenderForResult(pendingIntent.getIntentSender(),
-                                           requestCode, new Intent(),
-                                           Integer.valueOf(0), Integer.valueOf(0),
-                                           Integer.valueOf(0));
+                                           requestCode, new Intent(), 0, 0, 0);
         }
         catch (SendIntentException e) {
             logError("SendIntentException while launching purchase flow for sku " + sku);
@@ -470,7 +469,7 @@ public class IabHelper {
                 return true;
             }
 
-            Purchase purchase = null;
+            Purchase purchase;
             try {
                 purchase = new Purchase(mPurchasingItemType, purchaseData, dataSignature);
                 String sku = purchase.getSku();
@@ -789,10 +788,11 @@ public class IabHelper {
         if (o == null) {
             logDebug("Bundle with null response code, assuming OK (known issue)");
             return BILLING_RESPONSE_RESULT_OK;
-        }
-        else if (o instanceof Integer) return ((Integer)o).intValue();
-        else if (o instanceof Long) return (int)((Long)o).longValue();
-        else {
+
+        } else if (o instanceof Number) {
+            return ((Number)o).intValue();
+
+        } else {
             logError("Unexpected type for bundle response code.");
             logError(o.getClass().getName());
             throw new RuntimeException("Unexpected type for bundle response code: " + o.getClass().getName());
@@ -806,8 +806,8 @@ public class IabHelper {
             logError("Intent with no response code, assuming OK (known issue)");
             return BILLING_RESPONSE_RESULT_OK;
         }
-        else if (o instanceof Integer) return ((Integer)o).intValue();
-        else if (o instanceof Long) return (int)((Long)o).longValue();
+        else if (o instanceof Integer) return (Integer) o;
+        else if (o instanceof Long) return ((Long)o).intValue();
         else {
             logError("Unexpected type for intent response code.");
             logError(o.getClass().getName());

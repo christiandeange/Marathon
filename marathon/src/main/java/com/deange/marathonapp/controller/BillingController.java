@@ -5,11 +5,15 @@ import android.content.Context;
 import android.util.Log;
 
 import com.deange.marathonapp.billing.BillingConstants;
+import com.deange.marathonapp.billing.IabException;
 import com.deange.marathonapp.billing.IabHelper;
 import com.deange.marathonapp.billing.IabResult;
+import com.deange.marathonapp.billing.Inventory;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class BillingController {
@@ -53,6 +57,16 @@ public class BillingController {
         sInstances.remove(activity);
         if (mHelper != null) mHelper.dispose();
         mHelper = null;
+    }
+
+    // Synchronous
+    public Inventory queryInventory() throws IabException {
+        return mHelper.queryInventory(true, null);
+    }
+
+    // Asynchronous
+    public void queryInventory(final IabHelper.QueryInventoryFinishedListener listener) {
+        mHelper.queryInventoryAsync(listener);
     }
 
 }

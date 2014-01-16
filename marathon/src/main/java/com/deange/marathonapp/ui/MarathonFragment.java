@@ -91,9 +91,9 @@ public class MarathonFragment
         AchievementsController.getInstance().notifyMileRan(mile);
 
         if (mile % MILES_UPDATE_STATE_INTERVAL == 0) {
-            // Currently we will update the info on every 10th mile ran,
-            // let the play services library handle optimizing network requests
-            // (Hopefully it does)
+            // Currently we will update the info on every
+            // MILES_UPDATE_STATE_INTERVALth mile ran, let the play services
+            // library handle optimizing network requests (hopefully it does)
             mCloudInfo.setMilesRan(mile);
             CloudHelper.updateState(CloudHelper.KEY_GAME_STATE, mCloudInfo);
         }
