@@ -88,9 +88,7 @@ public class MarathonFragment
         StateController.getInstance().setMilesRan(mile);
 
         // Notify the achievements controller of a mile update
-        if (GoogleClients.getInstance().getGamesClient().isConnected()) {
-            AchievementsController.getInstance().notifyMileRan(mile);
-        }
+        AchievementsController.getInstance().notifyMileRan(mile);
 
         if (mile % MILES_UPDATE_STATE_INTERVAL == 0) {
             // Currently we will update the info on every 10th mile ran,

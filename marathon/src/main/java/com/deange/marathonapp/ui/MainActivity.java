@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
+import com.deange.marathonapp.controller.AchievementsController;
 import com.deange.marathonapp.controller.GoogleClients;
 import com.deange.marathonapp.utils.PlatformUtils;
 import com.deange.marathonapp.R;
@@ -53,29 +54,44 @@ public class MainActivity
     @Override
     public boolean onMenuItemClick(final MenuItem item) {
 
-        final GamesClient client = GoogleClients.getInstance().getGamesClient();
         boolean handled = false;
 
         switch (item.getItemId()) {
 
             case R.id.menu_achievements:
-                startActivityForResult(client.getAchievementsIntent(), 0);
+                handleAchievements();
                 handled = true;
                 break;
 
             case R.id.menu_leaderboards:
-                startActivityForResult(client.getLeaderboardIntent(
-                        getString(R.string.leaderboard_total_distance_ran)), 0);
+                handleLeaderBoards();
                 handled = true;
                 break;
 
             case R.id.menu_logout:
                 handled = true;
-                signOut();
+                handleSignout();
                 break;
         }
 
         return handled;
+    }
+
+    private void handleAchievements() {
+        final GamesClient client = GoogleClients.getInstance().getGamesClient();
+        startActivityForResult(client.getAchievementsIntent(), 0);
+    }
+
+    private void handleLeaderBoards() {
+        final GamesClient client = GoogleClients.getInstance().getGamesClient();
+        AchievementsController.getInstance().notifyLeaderBoardImmediate(
+                StateController.getInstance().getMilesRan());
+        startActivityForResult(client.getLeaderboardIntent(
+                getString(R.string.leaderboard_total_distance_ran)), 0);
+    }
+
+    private void handleSignout() {
+        signOut();
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)

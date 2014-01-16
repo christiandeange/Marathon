@@ -5,6 +5,9 @@ import android.content.Context;
 import com.deange.marathonapp.R;
 import com.google.android.gms.games.GamesClient;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * A handler to determine if an achievement has been unlocked
  */
@@ -19,6 +22,9 @@ public final class AchievementsController {
     private Context mContext;
     private static final Object sLock = new Object();
     private static AchievementsController sInstance;
+
+    // Micro-optimization so that we are not submitting achievements every time
+    private Set<Integer> mAchievements = new HashSet<Integer>();
 
     private long mLastLeaderboardSubmission;
     private long LEADERBOARD_SUBMISSION_INTERVAL = 5000;
@@ -44,41 +50,62 @@ public final class AchievementsController {
 
     public void notifyMileRan(final int mile) {
 
-        // Check for all the achievements that can be unlocked
-        if (shouldUnlock(mile, MILE_MOON)) {
-            unlock(R.string.achievement_one_giant_marathon_for_mankind);
+        synchronized (sLock) {
 
-        } else if (shouldUnlock(mile, MILE_NILE_RIVER)) {
-            unlock(R.string.achievement_walk_the_nile);
+            if (GoogleClients.getInstance().getGamesClient().isConnected()) {
 
-        } else if (shouldUnlock(mile, MILE_500_MORE)) {
-            unlock(R.string.achievement_and_i_would_walk_500_more);
+                // Check for all the achievements that can be unlocked
+                if (shouldUnlock(mile, MILE_MOON)) {
+                    unlock(R.string.achievement_one_giant_marathon_for_mankind, MILE_MOON);
 
-        } else if (shouldUnlock(mile, MILE_500)) {
-            unlock(R.string.achievement_i_would_walk_500_miles);
+                } else if (shouldUnlock(mile, MILE_NILE_RIVER)) {
+                    unlock(R.string.achievement_walk_the_nile, MILE_NILE_RIVER);
 
-        } else if (shouldUnlock(mile, MILE_MARATHON)) {
-            unlock(R.string.achievement_marathon_man);
+                } else if (shouldUnlock(mile, MILE_500_MORE)) {
+                    unlock(R.string.achievement_and_i_would_walk_500_more, MILE_500_MORE);
+
+                } else if (shouldUnlock(mile, MILE_500)) {
+                    unlock(R.string.achievement_i_would_walk_500_miles, MILE_500);
+
+                } else if (shouldUnlock(mile, MILE_MARATHON)) {
+                    unlock(R.string.achievement_marathon_man, MILE_MARATHON);
+                }
+
+                // Submit score to leaderboards
+                final long now = System.currentTimeMillis();
+                if ((now - mLastLeaderboardSubmission >= LEADERBOARD_SUBMISSION_INTERVAL)) {
+                    submit(mile);
+                }
+            }
         }
 
-        final long now = System.currentTimeMillis();
-        if ((now - mLastLeaderboardSubmission >= LEADERBOARD_SUBMISSION_INTERVAL)) {
-            mLastLeaderboardSubmission = now;
+    }
 
-            final GamesClient client = GoogleClients.getInstance().getGamesClient();
-            client.submitScore(mContext.getString(R.string.leaderboard_total_distance_ran), mile);
+    public void notifyLeaderBoardImmediate(final int mile) {
+        synchronized (sLock) {
+            // Bypass the time-locking system to deter rate-limiting
+            submit(mile);
         }
-
     }
 
     private boolean shouldUnlock(final int miles, final int achievementLimit) {
-        return miles >= achievementLimit;
+        return (miles >= achievementLimit) && (!mAchievements.contains(achievementLimit));
     }
 
-    private void unlock(final int achievementResId) {
+    private void unlock(final int achievementResId, final int achievementLimit) {
         final GamesClient client = GoogleClients.getInstance().getGamesClient();
         final String achievement = mContext.getString(achievementResId);
         client.unlockAchievement(achievement);
+
+        mAchievements.add(achievementLimit);
+    }
+
+    private void submit(final int mile) {
+        if (GoogleClients.getInstance().getGamesClient().isConnected()) {
+            mLastLeaderboardSubmission = System.currentTimeMillis();
+            GoogleClients.getInstance().getGamesClient().submitScore(
+                    mContext.getString(R.string.leaderboard_total_distance_ran), mile);
+        }
     }
 
 }
