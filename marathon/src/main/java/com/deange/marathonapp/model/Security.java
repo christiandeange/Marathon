@@ -13,16 +13,13 @@
  * limitations under the License.
  */
 
-package com.deange.marathonapp.billing;
+package com.deange.marathonapp.model;
 
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.deange.marathonapp.utils.Base64;
 import com.deange.marathonapp.utils.Base64DecoderException;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 import java.security.InvalidKeyException;
@@ -43,11 +40,15 @@ import java.security.spec.X509EncodedKeySpec;
  * make it harder for an attacker to replace the code with stubs that treat all
  * purchases as verified.
  */
-public class Security {
+public final class Security {
     private static final String TAG = "IABUtil/Security";
 
     private static final String KEY_FACTORY_ALGORITHM = "RSA";
     private static final String SIGNATURE_ALGORITHM = "SHA1withRSA";
+
+    private Security() {
+        // Uninstantiable
+    }
 
     /**
      * Verifies that the data was signed with the given signature, and returns

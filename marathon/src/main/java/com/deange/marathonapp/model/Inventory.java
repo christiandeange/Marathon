@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.deange.marathonapp.billing;
+package com.deange.marathonapp.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,13 +22,11 @@ import java.util.Map;
 
 /**
  * Represents a block of information about in-app items.
- * An Inventory is returned by such methods as {@link IabHelper#queryInventory}.
+ * An Inventory is returned by such methods as {@link com.deange.marathonapp.billing.IabHelper#queryInventory}.
  */
-public class Inventory {
-    Map<String,SkuDetails> mSkuMap = new HashMap<String,SkuDetails>();
-    Map<String,Purchase> mPurchaseMap = new HashMap<String,Purchase>();
-
-    Inventory() { }
+public class Inventory extends BaseModel {
+    private Map<String,SkuDetails> mSkuMap = new HashMap<String,SkuDetails>();
+    private Map<String,Purchase> mPurchaseMap = new HashMap<String,Purchase>();
 
     /** Returns the listing details for an in-app product. */
     public SkuDetails getSkuDetails(String sku) {
@@ -63,12 +61,12 @@ public class Inventory {
     }
 
     /** Returns a list of all owned product IDs. */
-    List<String> getAllOwnedSkus() {
+    public List<String> getAllOwnedSkus() {
         return new ArrayList<String>(mPurchaseMap.keySet());
     }
 
     /** Returns a list of all owned product IDs of a given type */
-    List<String> getAllOwnedSkus(String itemType) {
+    public List<String> getAllOwnedSkus(String itemType) {
         List<String> result = new ArrayList<String>();
         for (Purchase p : mPurchaseMap.values()) {
             if (p.getItemType().equals(itemType)) result.add(p.getSku());
@@ -77,15 +75,15 @@ public class Inventory {
     }
 
     /** Returns a list of all purchases. */
-    List<Purchase> getAllPurchases() {
+    public List<Purchase> getAllPurchases() {
         return new ArrayList<Purchase>(mPurchaseMap.values());
     }
 
-    void addSkuDetails(SkuDetails d) {
+    public void addSkuDetails(SkuDetails d) {
         mSkuMap.put(d.getSku(), d);
     }
 
-    void addPurchase(Purchase p) {
+    public void addPurchase(Purchase p) {
         mPurchaseMap.put(p.getSku(), p);
     }
 }

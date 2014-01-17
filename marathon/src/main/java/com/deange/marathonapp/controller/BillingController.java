@@ -1,19 +1,16 @@
 package com.deange.marathonapp.controller;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 
 import com.deange.marathonapp.billing.BillingConstants;
 import com.deange.marathonapp.billing.IabException;
 import com.deange.marathonapp.billing.IabHelper;
 import com.deange.marathonapp.billing.IabResult;
-import com.deange.marathonapp.billing.Inventory;
+import com.deange.marathonapp.model.Inventory;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class BillingController {

@@ -10,27 +10,35 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
-import com.deange.marathonapp.R;
+import com.deange.marathonapp.billing.AdDelegate;
+import com.deange.marathonapp.billing.BillingConstants;
 import com.deange.marathonapp.billing.BillingConstants2;
 import com.deange.marathonapp.billing.IabHelper;
 import com.deange.marathonapp.billing.IabResult;
-import com.deange.marathonapp.billing.Inventory;
-import com.deange.marathonapp.billing.Purchase;
+import com.deange.marathonapp.model.Inventory;
+import com.deange.marathonapp.model.Purchase;
 import com.deange.marathonapp.controller.AchievementsController;
 import com.deange.marathonapp.controller.BillingController;
 import com.deange.marathonapp.controller.GoogleClients;
+import com.deange.marathonapp.utils.PlatformUtils;
+import com.deange.marathonapp.R;
+import com.deange.marathonapp.utils.Utils;
 import com.deange.marathonapp.controller.StateController;
 import com.deange.marathonapp.google.BaseGameActivity;
-import com.deange.marathonapp.utils.PlatformUtils;
-import com.deange.marathonapp.utils.Utils;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.games.GamesClient;
 
 public class MainActivity
         extends BaseGameActivity
-        implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+        implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, AdDelegate.Listener<InterstitialAd> {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+
+    private static final String KEY_SHOW_AD = TAG + ".show_ad";
+
     private PopupMenu mPopupMenu;
+    private boolean mShowAd;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -39,6 +47,11 @@ public class MainActivity
         setContentView(R.layout.activity_main);
 
         setupActionBar();
+
+        // Load saved variables
+        if (savedInstanceState != null) {
+            mShowAd = savedInstanceState.getBoolean(KEY_SHOW_AD);
+        }
 
         // Force an initialization
         BillingController.createInstance(this);
@@ -53,6 +66,12 @@ public class MainActivity
                     .add(R.id.container, fragment, MarathonFragment.TAG)
                     .commit();
         }
+
+        final InterstitialAd ad = new InterstitialAd(this);
+        final AdRequest adRequest = new AdRequest.Builder().addTestDevice("FCCD174D5B83FA1062468A3C8E63AF38").build();
+        ad.setAdUnitId(BillingConstants.AD_UNIT_ID);
+        ad.setAdListener(new AdDelegate<InterstitialAd>(ad, this));
+        ad.loadAd(adRequest);
     }
 
     @Override
@@ -116,6 +135,12 @@ public class MainActivity
             }
         });
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(final Bundle outState) {
+        outState.putBoolean(KEY_SHOW_AD, mShowAd);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -191,5 +216,38 @@ public class MainActivity
         final Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onAdClosed(final InterstitialAd ad) {
+        Log.v(TAG, "onAdClosed()");
+        // Nothing to do here
+    }
+
+    @Override
+    public void onAdFailedToLoad(final InterstitialAd ad, final int errorCode) {
+        Log.v(TAG, "onAdFailedToLoad()");
+        // Nothing to do here
+    }
+
+    @Override
+    public void onAdLeftApplication(final InterstitialAd ad) {
+        Log.v(TAG, "onAdLeftApplication()");
+        // Nothing to do here
+    }
+
+    @Override
+    public void onAdOpened(final InterstitialAd ad) {
+        Log.v(TAG, "onAdOpened()");
+        // Nothing to do here
+    }
+
+    @Override
+    public void onAdLoaded(final InterstitialAd ad) {
+        Log.v(TAG, "onAdLoaded()");
+        mShowAd = false;
+        if (ad != null) {
+            ad.show();
+        }
     }
 }

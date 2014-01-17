@@ -13,7 +13,9 @@
  * limitations under the License.
  */
 
-package com.deange.marathonapp.billing;
+package com.deange.marathonapp.model;
+
+import com.deange.marathonapp.billing.IabHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,14 +23,14 @@ import org.json.JSONObject;
 /**
  * Represents an in-app product's listing details.
  */
-public class SkuDetails {
-    String mItemType;
-    String mSku;
-    String mType;
-    String mPrice;
-    String mTitle;
-    String mDescription;
-    String mJson;
+public class SkuDetails extends BaseModel {
+    private String mItemType;
+    private String mSku;
+    private String mType;
+    private String mPrice;
+    private String mTitle;
+    private String mDescription;
+    private String mJson;
 
     public SkuDetails(String jsonSkuDetails) throws JSONException {
         this(IabHelper.ITEM_TYPE_INAPP, jsonSkuDetails);
@@ -49,6 +51,7 @@ public class SkuDetails {
     public String getType() { return mType; }
     public String getPrice() { return mPrice; }
     public String getTitle() { return mTitle; }
+    public String getItemType() { return mItemType; }
     public String getDescription() { return mDescription; }
 
     @Override

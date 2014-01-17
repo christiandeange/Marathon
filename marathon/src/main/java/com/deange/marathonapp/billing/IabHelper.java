@@ -30,6 +30,10 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.vending.billing.IInAppBillingService;
+import com.deange.marathonapp.model.Inventory;
+import com.deange.marathonapp.model.Purchase;
+import com.deange.marathonapp.model.Security;
+import com.deange.marathonapp.model.SkuDetails;
 
 import org.json.JSONException;
 
@@ -656,9 +660,9 @@ public class IabHelper {
         checkNotDisposed();
         checkSetupDone("consume");
 
-        if (!itemInfo.mItemType.equals(ITEM_TYPE_INAPP)) {
+        if (!itemInfo.getItemType().equals(ITEM_TYPE_INAPP)) {
             throw new IabException(IABHELPER_INVALID_CONSUMPTION,
-                    "Items of type '" + itemInfo.mItemType + "' can't be consumed.");
+                    "Items of type '" + itemInfo.getItemType() + "' can't be consumed.");
         }
 
         try {

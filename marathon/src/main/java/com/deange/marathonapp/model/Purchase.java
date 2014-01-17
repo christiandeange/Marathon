@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package com.deange.marathonapp.billing;
+package com.deange.marathonapp.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,17 +21,17 @@ import org.json.JSONObject;
 /**
  * Represents an in-app billing purchase.
  */
-public class Purchase {
-    String mItemType;  // ITEM_TYPE_INAPP or ITEM_TYPE_SUBS
-    String mOrderId;
-    String mPackageName;
-    String mSku;
-    long mPurchaseTime;
-    int mPurchaseState;
-    String mDeveloperPayload;
-    String mToken;
-    String mOriginalJson;
-    String mSignature;
+public class Purchase extends BaseModel {
+    private String mItemType;  // ITEM_TYPE_INAPP or ITEM_TYPE_SUBS
+    private String mOrderId;
+    private String mPackageName;
+    private String mSku;
+    private long mPurchaseTime;
+    private int mPurchaseState;
+    private String mDeveloperPayload;
+    private String mToken;
+    private String mOriginalJson;
+    private String mSignature;
 
     public Purchase(String itemType, String jsonPurchaseInfo, String signature) throws JSONException {
         mItemType = itemType;
