@@ -4,13 +4,13 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
+import com.deange.marathonapp.R;
 import com.deange.marathonapp.billing.BillingConstants2;
 import com.deange.marathonapp.billing.IabHelper;
 import com.deange.marathonapp.billing.IabResult;
@@ -19,17 +19,17 @@ import com.deange.marathonapp.billing.Purchase;
 import com.deange.marathonapp.controller.AchievementsController;
 import com.deange.marathonapp.controller.BillingController;
 import com.deange.marathonapp.controller.GoogleClients;
-import com.deange.marathonapp.utils.PlatformUtils;
-import com.deange.marathonapp.R;
-import com.deange.marathonapp.utils.Utils;
 import com.deange.marathonapp.controller.StateController;
 import com.deange.marathonapp.google.BaseGameActivity;
+import com.deange.marathonapp.utils.PlatformUtils;
+import com.deange.marathonapp.utils.Utils;
 import com.google.android.gms.games.GamesClient;
 
 public class MainActivity
         extends BaseGameActivity
         implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     private PopupMenu mPopupMenu;
 
     @Override
@@ -41,7 +41,7 @@ public class MainActivity
         setupActionBar();
 
         // Force an initialization
-        BillingController.getInstance(this);
+        BillingController.createInstance(this);
 
         MarathonFragment fragment = (MarathonFragment) getSupportFragmentManager().findFragmentByTag(MarathonFragment.TAG);
         if (fragment == null) {
@@ -116,7 +116,14 @@ public class MainActivity
             }
         });
 
+    }
 
+    @Override
+    protected void onDestroy() {
+        Log.v(TAG, "onDestroy()");
+
+        BillingController.getInstance(this).removeInstance();
+        super.onDestroy();
     }
 
     private void handleAchievements() {

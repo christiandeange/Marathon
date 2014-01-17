@@ -29,12 +29,19 @@ public class BillingController {
     private Activity mActivity;
     private IabHelper mHelper;
 
+    public static BillingController createInstance(final Activity activity) {
+        synchronized (sLock) {
+            BillingController instance = new BillingController(activity);
+            sInstances.put(activity, instance);
+            return instance;
+        }
+    }
+
     public static BillingController getInstance(final Activity activity) {
         synchronized (sLock) {
-            BillingController instance = sInstances.get(activity);
+            final BillingController instance = sInstances.get(activity);
             if (instance == null) {
-                instance = new BillingController(activity);
-                sInstances.put(activity, instance);
+                throw new IllegalStateException("BillingController not created for this Activity");
             }
             return instance;
         }
@@ -55,26 +62,35 @@ public class BillingController {
         });
     }
 
-    public void removeInstance(final Activity activity) {
-        sInstances.remove(activity);
-        if (mHelper != null) mHelper.dispose();
-        mHelper = null;
+    public void removeInstance() {
+        synchronized (sLock) {
+            sInstances.remove(mActivity);
+            if (mHelper != null) mHelper.dispose();
+            mHelper = null;
+            mActivity = null;
+        }
     }
 
     // Synchronous
     public Inventory queryInventory() throws IabException {
-        return mHelper.queryInventory(true, null);
+        synchronized (sLock) {
+            return mHelper.queryInventory(true, null);
+        }
     }
 
     // Asynchronous
     public void queryInventory(final IabHelper.QueryInventoryFinishedListener listener) {
-        mHelper.queryInventoryAsync(listener);
+        synchronized (sLock) {
+            mHelper.queryInventoryAsync(listener);
+        }
     }
 
     // Asynchronous
     public void purchase(final String sku, final IabHelper.OnIabPurchaseFinishedListener listener) {
-        mHelper.launchPurchaseFlow(mActivity, sku, PURCHASE_REQUEST_CODE,
-                listener, "bGoa+V7g/yqDXvKRqq+JTFn4uQZbPiQJo4pf9RzJ");
+        synchronized (sLock) {
+            mHelper.launchPurchaseFlow(mActivity, sku, PURCHASE_REQUEST_CODE,
+                    listener, "bGoa+V7g/yqDXvKRqq+JTFn4uQZbPiQJo4pf9RzJ");
+        }
     }
 
 }
