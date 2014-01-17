@@ -72,7 +72,7 @@ import java.util.List;
 @SuppressWarnings("UnusedDeclaration")
 public class IabHelper {
     // Is debug logging enabled?
-    boolean mDebugLog = false;
+    boolean mDebugLog = true;
     String mDebugTag = "IabHelper";
 
     // Is setup done?

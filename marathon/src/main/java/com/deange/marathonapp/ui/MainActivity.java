@@ -5,12 +5,19 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
+import com.deange.marathonapp.billing.BillingConstants2;
+import com.deange.marathonapp.billing.IabHelper;
+import com.deange.marathonapp.billing.IabResult;
+import com.deange.marathonapp.billing.Inventory;
+import com.deange.marathonapp.billing.Purchase;
 import com.deange.marathonapp.controller.AchievementsController;
+import com.deange.marathonapp.controller.BillingController;
 import com.deange.marathonapp.controller.GoogleClients;
 import com.deange.marathonapp.utils.PlatformUtils;
 import com.deange.marathonapp.R;
@@ -33,7 +40,10 @@ public class MainActivity
 
         setupActionBar();
 
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(MarathonFragment.TAG);
+        // Force an initialization
+        BillingController.getInstance(this);
+
+        MarathonFragment fragment = (MarathonFragment) getSupportFragmentManager().findFragmentByTag(MarathonFragment.TAG);
         if (fragment == null) {
             fragment = new MarathonFragment();
         }
@@ -58,6 +68,11 @@ public class MainActivity
 
         switch (item.getItemId()) {
 
+            case R.id.menu_test:
+                handleTest();
+                handled = true;
+                break;
+
             case R.id.menu_achievements:
                 handleAchievements();
                 handled = true;
@@ -75,6 +90,33 @@ public class MainActivity
         }
 
         return handled;
+    }
+
+    private void handleTest() {
+
+        BillingController.getInstance(this).purchase(BillingConstants2.SKU_TEST, new IabHelper.OnIabPurchaseFinishedListener() {
+
+            @Override
+            public void onIabPurchaseFinished(final IabResult result, final Purchase info) {
+
+                if (result.isSuccess() || result.getResponse() == IabHelper.BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED) {
+                    BillingController.getInstance(MainActivity.this).queryInventory(new IabHelper.QueryInventoryFinishedListener() {
+                        @Override
+                        public void onQueryInventoryFinished(final IabResult result, final Inventory inv) {
+
+                            if (result.isSuccess()) {
+                                Purchase purchase = inv.getPurchase(BillingConstants2.SKU_TEST);
+                                Log.d("MainActivity", "purchase = " + purchase);
+                            }
+
+                        }
+                    });
+                }
+
+            }
+        });
+
+
     }
 
     private void handleAchievements() {

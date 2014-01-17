@@ -20,6 +20,8 @@ public class BillingController {
 
     private static final String TAG = BillingController.class.getSimpleName();
 
+    public static final int PURCHASE_REQUEST_CODE = 10001;
+
     private static final Object sLock = new Object();
     private static Map<Activity, BillingController> sInstances =
             Collections.synchronizedMap(new HashMap<Activity, BillingController>());
@@ -67,6 +69,12 @@ public class BillingController {
     // Asynchronous
     public void queryInventory(final IabHelper.QueryInventoryFinishedListener listener) {
         mHelper.queryInventoryAsync(listener);
+    }
+
+    // Asynchronous
+    public void purchase(final String sku, final IabHelper.OnIabPurchaseFinishedListener listener) {
+        mHelper.launchPurchaseFlow(mActivity, sku, PURCHASE_REQUEST_CODE,
+                listener, "bGoa+V7g/yqDXvKRqq+JTFn4uQZbPiQJo4pf9RzJ");
     }
 
 }
