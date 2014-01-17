@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
+import com.deange.marathonapp.BuildConfig;
 import com.deange.marathonapp.billing.AdDelegate;
 import com.deange.marathonapp.billing.BillingConstants;
 import com.deange.marathonapp.billing.BillingConstants2;
@@ -67,8 +68,13 @@ public class MainActivity
                     .commit();
         }
 
+        final AdRequest.Builder requestBuilder = new AdRequest.Builder();
+        if (BuildConfig.DEBUG) {
+            requestBuilder.addTestDevice("FCCD174D5B83FA1062468A3C8E63AF38");
+        }
+
+        final AdRequest adRequest = requestBuilder.build();
         final InterstitialAd ad = new InterstitialAd(this);
-        final AdRequest adRequest = new AdRequest.Builder().addTestDevice("FCCD174D5B83FA1062468A3C8E63AF38").build();
         ad.setAdUnitId(BillingConstants.AD_UNIT_ID);
         ad.setAdListener(new AdDelegate<InterstitialAd>(ad, this));
         ad.loadAd(adRequest);
