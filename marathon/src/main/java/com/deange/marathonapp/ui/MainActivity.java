@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,9 +38,12 @@ public class MainActivity
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private static final String KEY_SHOW_AD = TAG + ".show_ad";
+    private static final String KEY_LOADED_INVENTORY = TAG + ".loaded_inv";
 
     private PopupMenu mPopupMenu;
-    private boolean mShowAd;
+    private MenuItem mRemoveAdsItem;
+    private boolean mShowAd = true;
+    private boolean mLoadedInventory = false;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -52,6 +56,7 @@ public class MainActivity
         // Load saved variables
         if (savedInstanceState != null) {
             mShowAd = savedInstanceState.getBoolean(KEY_SHOW_AD);
+            mLoadedInventory = savedInstanceState.getBoolean(KEY_LOADED_INVENTORY);
         }
 
         // Force an initialization
@@ -68,22 +73,16 @@ public class MainActivity
                     .commit();
         }
 
-        final AdRequest.Builder requestBuilder = new AdRequest.Builder();
-        if (BuildConfig.DEBUG) {
-            requestBuilder.addTestDevice("FCCD174D5B83FA1062468A3C8E63AF38");
-        }
-
-        final AdRequest adRequest = requestBuilder.build();
-        final InterstitialAd ad = new InterstitialAd(this);
-        ad.setAdUnitId(BillingConstants.AD_UNIT_ID);
-        ad.setAdListener(new AdDelegate<InterstitialAd>(ad, this));
-        ad.loadAd(adRequest);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(final Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        // These must be done in this order.
+        // Unfortunately need to wait a bit to ensure that the IabHelper
+        // has completed setup :(
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                checkInventory();
+                showAdIfNecessary();
+            }
+        }, 1000);
     }
 
     @Override
@@ -122,20 +121,12 @@ public class MainActivity
         BillingController.getInstance(this).purchase(BillingConstants2.SKU_TEST, new IabHelper.OnIabPurchaseFinishedListener() {
 
             @Override
-            public void onIabPurchaseFinished(final IabResult result, final Purchase info) {
+            public void onIabPurchaseFinished(final IabResult result, final Purchase purchase) {
+
+                Log.d(TAG, "purchase = " + purchase);
 
                 if (result.isSuccess() || result.getResponse() == IabHelper.BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED) {
-                    BillingController.getInstance(MainActivity.this).queryInventory(new IabHelper.QueryInventoryFinishedListener() {
-                        @Override
-                        public void onQueryInventoryFinished(final IabResult result, final Inventory inv) {
-
-                            if (result.isSuccess()) {
-                                Purchase purchase = inv.getPurchase(BillingConstants2.SKU_TEST);
-                                Log.d("MainActivity", "purchase = " + purchase);
-                            }
-
-                        }
-                    });
+                    checkInventory();
                 }
 
             }
@@ -146,6 +137,7 @@ public class MainActivity
     @Override
     protected void onSaveInstanceState(final Bundle outState) {
         outState.putBoolean(KEY_SHOW_AD, mShowAd);
+        outState.putBoolean(KEY_LOADED_INVENTORY, mLoadedInventory);
         super.onSaveInstanceState(outState);
     }
 
@@ -155,6 +147,44 @@ public class MainActivity
 
         BillingController.getInstance(this).removeInstance();
         super.onDestroy();
+    }
+
+    private void checkInventory() {
+        BillingController.getInstance(this).queryInventory(new IabHelper.QueryInventoryFinishedListener() {
+            @Override
+            public void onQueryInventoryFinished(final IabResult result, final Inventory inv) {
+
+                if ((result.isSuccess()) && (inv != null)) {
+                    mLoadedInventory = true;
+                    Purchase purchase = inv.getPurchase(BillingConstants2.SKU_TEST);
+                    Log.d(TAG, "purchase = " + purchase);
+
+                    // If mShowAd is false, we want it to stay false
+                    mShowAd = mShowAd && (purchase == null);
+                    showAdIfNecessary();
+
+                    if (mRemoveAdsItem != null) {
+                        mRemoveAdsItem.setVisible(purchase == null);
+                    }
+                }
+
+            }
+        });
+    }
+
+    private void showAdIfNecessary() {
+        if (mShowAd && mLoadedInventory) {
+            final AdRequest.Builder requestBuilder = new AdRequest.Builder();
+            if (BuildConfig.DEBUG) {
+                requestBuilder.addTestDevice("FCCD174D5B83FA1062468A3C8E63AF38");
+            }
+
+            final AdRequest adRequest = requestBuilder.build();
+            final InterstitialAd ad = new InterstitialAd(this);
+            ad.setAdUnitId(BillingConstants.AD_UNIT_ID);
+            ad.setAdListener(new AdDelegate<InterstitialAd>(this, ad));
+            ad.loadAd(adRequest);
+        }
     }
 
     private void handleAchievements() {
@@ -183,6 +213,7 @@ public class MainActivity
         mPopupMenu = new PopupMenu(this, overflowView);
         mPopupMenu.setOnMenuItemClickListener(this);
         mPopupMenu.inflate(R.menu.main_menu);
+        mRemoveAdsItem = mPopupMenu.getMenu().findItem(R.id.menu_test);
 
         if (PlatformUtils.hasKitKat()) {
             overflowView.setOnTouchListener(mPopupMenu.getDragToOpenListener());

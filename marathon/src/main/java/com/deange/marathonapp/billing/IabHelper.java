@@ -870,7 +870,9 @@ public class IabHelper {
                 String purchaseData = purchaseDataList.get(i);
                 String signature = signatureList.get(i);
                 String sku = ownedSkus.get(i);
-                if (Security.verifyPurchase(mSignatureBase64, purchaseData, signature)) {
+                final boolean isAndroidTest = sku.startsWith("android.test.");
+
+                if (Security.verifyPurchase(mSignatureBase64, purchaseData, signature) || isAndroidTest) {
                     logDebug("Sku is owned: " + sku);
                     Purchase purchase = new Purchase(itemType, purchaseData, signature);
 

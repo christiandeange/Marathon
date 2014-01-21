@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import com.deange.marathonapp.R;
 import com.deange.marathonapp.controller.AchievementsController;
-import com.deange.marathonapp.controller.GoogleClients;
 import com.deange.marathonapp.controller.StateController;
 import com.deange.marathonapp.google.CloudHelper;
 import com.deange.marathonapp.model.CloudInfo;
@@ -19,7 +18,7 @@ public class MarathonFragment
     public static final String TAG = MarathonFragment.class.getSimpleName();
     public static final String KEY_MILES_RAN = "milesRan";
     public static final String KEY_MILES_OFFSET = "milesOffset";
-    public static final int MILES_UPDATE_STATE_INTERVAL = 50;
+    public static final int MILES_UPDATE_STATE_INTERVAL = 10;
 
     private MarathonView mMarathonView;
 

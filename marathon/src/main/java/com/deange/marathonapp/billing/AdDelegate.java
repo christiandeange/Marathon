@@ -7,9 +7,9 @@ public class AdDelegate<T> extends AdListener {
     private Listener<T> mListener;
     private T mToken;
 
-    public AdDelegate(final T token, final Listener<T> listener) {
-        mToken = token;
+    public AdDelegate(final Listener<T> listener, final T token) {
         mListener = listener;
+        mToken = token;
     }
 
     public void onAdClosed() {
