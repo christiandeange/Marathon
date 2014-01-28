@@ -8,6 +8,7 @@ import android.content.pm.Signature;
 import android.util.Log;
 
 import com.deange.marathonapp.controller.AchievementsController;
+import com.deange.marathonapp.controller.BillingController;
 import com.deange.marathonapp.controller.GoogleClients;
 import com.deange.marathonapp.controller.GsonController;
 import com.deange.marathonapp.controller.StateController;
@@ -23,25 +24,35 @@ public class MainApplication extends Application {
         Log.v(TAG, "onCreate()");
         super.onCreate();
 
-        /**
-         * Instantiate the GSON cache
-         */
-        GsonController.getInstance();
+        try {
+            /**
+             * Instantiate the GSON cache
+             */
+            GsonController.getInstance();
 
-        /**
-         * Instantiate the state manager & shared preferences
-         */
-        StateController.createInstance(getApplicationContext());
+            /**
+             * Instantiate the state manager & shared preferences
+             */
+            StateController.createInstance(getApplicationContext());
 
-        /**
-         * Instantiate the Google Play clients
-         */
-        GoogleClients.createInstance(getApplicationContext());
+            /**
+             * Instantiate the Google Play clients
+             */
+            GoogleClients.createInstance(getApplicationContext());
 
-        /**
-         * Instantiate the achievements controller
-         */
-        AchievementsController.createInstance(getApplicationContext());
+            /**
+             * Instantiate the in-app purchasing controller
+             */
+            BillingController.createInstance(getApplicationContext());
+
+            /**
+             * Instantiate the achievements controller
+             */
+            AchievementsController.createInstance(getApplicationContext());
+
+        } catch (final Exception ex) {
+            Log.e(TAG, "Application not instantiated properly", ex);
+        }
 
 
         Log.i(TAG, "Signing key hash: " + getSignatureHashKey(getApplicationContext()));

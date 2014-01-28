@@ -59,8 +59,6 @@ public class MainActivity
             mLoadedInventory = savedInstanceState.getBoolean(KEY_LOADED_INVENTORY);
         }
 
-        // Force an initialization
-        BillingController.createInstance(this);
 
         MarathonFragment fragment = (MarathonFragment) getSupportFragmentManager().findFragmentByTag(MarathonFragment.TAG);
         if (fragment == null) {
@@ -73,16 +71,8 @@ public class MainActivity
                     .commit();
         }
 
-        // These must be done in this order.
-        // Unfortunately need to wait a bit to ensure that the IabHelper
-        // has completed setup :(
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                checkInventory();
-                showAdIfNecessary();
-            }
-        }, 1000);
+        checkInventory();
+        showAdIfNecessary();
     }
 
     @Override
@@ -118,16 +108,15 @@ public class MainActivity
 
     private void handleTest() {
 
-        BillingController.getInstance(this).purchase(BillingConstants2.SKU_TEST, new IabHelper.OnIabPurchaseFinishedListener() {
+        BillingController.getInstance().purchase(this, BillingConstants2.SKU_TEST, new IabHelper.OnIabPurchaseFinishedListener() {
 
             @Override
             public void onIabPurchaseFinished(final IabResult result, final Purchase purchase) {
 
                 Log.d(TAG, "purchase = " + purchase);
 
-                if (result.isSuccess() || result.getResponse() == IabHelper.BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED) {
-                    checkInventory();
-                }
+                // Naïve implementation: check the inventory after any purchase
+                checkInventory();
 
             }
         });
@@ -141,16 +130,8 @@ public class MainActivity
         super.onSaveInstanceState(outState);
     }
 
-    @Override
-    protected void onDestroy() {
-        Log.v(TAG, "onDestroy()");
-
-        BillingController.getInstance(this).removeInstance();
-        super.onDestroy();
-    }
-
     private void checkInventory() {
-        BillingController.getInstance(this).queryInventory(new IabHelper.QueryInventoryFinishedListener() {
+        BillingController.getInstance().queryInventory(new IabHelper.QueryInventoryFinishedListener() {
             @Override
             public void onQueryInventoryFinished(final IabResult result, final Inventory inv) {
 
@@ -282,8 +263,8 @@ public class MainActivity
     @Override
     public void onAdLoaded(final InterstitialAd ad) {
         Log.v(TAG, "onAdLoaded()");
-        mShowAd = false;
-        if (ad != null) {
+        if (ad != null && mShowAd) {
+            mShowAd = false;
             ad.show();
         }
     }

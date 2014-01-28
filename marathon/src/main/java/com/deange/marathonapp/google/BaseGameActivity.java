@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import com.deange.marathonapp.controller.BillingController;
 import com.deange.marathonapp.controller.GoogleClients;
 import com.google.android.gms.appstate.AppStateClient;
 import com.google.android.gms.games.GamesClient;
@@ -122,6 +123,7 @@ public abstract class BaseGameActivity extends FragmentActivity
     protected void onActivityResult(int request, int response, Intent data) {
         super.onActivityResult(request, response, data);
         mHelper.onActivityResult(request, response, data);
+        BillingController.getInstance().onActivityResult(request, response, data);
     }
 
     public GamesClient getGamesClient() {

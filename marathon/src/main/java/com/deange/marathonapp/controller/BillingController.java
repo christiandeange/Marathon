@@ -1,6 +1,8 @@
 package com.deange.marathonapp.controller;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 
 import com.deange.marathonapp.billing.BillingConstants;
@@ -13,59 +15,45 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BillingController {
+public final class BillingController {
 
     private static final String TAG = BillingController.class.getSimpleName();
 
     public static final int PURCHASE_REQUEST_CODE = 10001;
 
     private static final Object sLock = new Object();
-    private static Map<Activity, BillingController> sInstances =
-            Collections.synchronizedMap(new HashMap<Activity, BillingController>());
+    private static BillingController sInstance;
 
-    private Activity mActivity;
     private IabHelper mHelper;
 
-    public static BillingController createInstance(final Activity activity) {
+    public static BillingController createInstance(final Context context) {
         synchronized (sLock) {
-            BillingController instance = new BillingController(activity);
-            sInstances.put(activity, instance);
-            return instance;
+            sInstance = new BillingController(context.getApplicationContext());
         }
+        return sInstance;
     }
 
-    public static BillingController getInstance(final Activity activity) {
+    public static BillingController getInstance() {
         synchronized (sLock) {
-            final BillingController instance = sInstances.get(activity);
-            if (instance == null) {
-                throw new IllegalStateException("BillingController not created for this Activity");
+            if (sInstance == null) {
+                throw new IllegalStateException("BillingController not instantiated");
             }
-            return instance;
+            return sInstance;
         }
     }
 
-    private BillingController(final Activity activity) {
-        mActivity = activity;
-        mHelper = new IabHelper(activity, BillingConstants.BASE_64_KEY);
+    private BillingController(final Context context) {
+        mHelper = new IabHelper(context, BillingConstants.BASE_64_KEY);
 
         mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
             @Override
             public void onIabSetupFinished(final IabResult result) {
                 if (!result.isSuccess()) {
                     // Oh noes, there was a problem.
-                    Log.d(TAG, "Problem setting up In-app Billing: " + result);
+                    Log.w(TAG, "Problem setting up In-app Billing: " + result);
                 }
             }
         });
-    }
-
-    public void removeInstance() {
-        synchronized (sLock) {
-            sInstances.remove(mActivity);
-            if (mHelper != null) mHelper.dispose();
-            mHelper = null;
-            mActivity = null;
-        }
     }
 
     // Synchronous
@@ -83,11 +71,17 @@ public class BillingController {
     }
 
     // Asynchronous
-    public void purchase(final String sku, final IabHelper.OnIabPurchaseFinishedListener listener) {
+    public void purchase(final Activity activity, final String sku,
+                         final IabHelper.OnIabPurchaseFinishedListener listener) {
         synchronized (sLock) {
-            mHelper.launchPurchaseFlow(mActivity, sku, PURCHASE_REQUEST_CODE,
+            mHelper.launchPurchaseFlow(activity, sku, PURCHASE_REQUEST_CODE,
                     listener, "bGoa+V7g/yqDXvKRqq+JTFn4uQZbPiQJo4pf9RzJ");
         }
     }
 
+    public void onActivityResult(final int request, final int response, final Intent data) {
+        synchronized (sLock) {
+            mHelper.handleActivityResult(request, response, data);
+        }
+    }
 }
