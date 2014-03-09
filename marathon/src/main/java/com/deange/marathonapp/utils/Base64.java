@@ -566,4 +566,25 @@ public class Base64 {
         System.arraycopy(outBuff, 0, out, 0, outBuffPosn);
         return out;
     }
+
+    public static class Base64DecoderException extends Exception {
+
+        public Base64DecoderException() {
+            super();
+        }
+
+        public Base64DecoderException(String s) {
+            super(s);
+        }
+
+        public Base64DecoderException(Throwable t) {
+            super(t);
+        }
+
+        public Base64DecoderException(String s, Throwable t) {
+            super(s, t);
+        }
+
+        private static final long serialVersionUID = 1L;
+    }
 }

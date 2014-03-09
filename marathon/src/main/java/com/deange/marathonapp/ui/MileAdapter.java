@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.deange.marathonapp.R;
+import com.deange.marathonapp.ui.view.MarathonView;
 
 public class MileAdapter extends BaseAdapter {
 

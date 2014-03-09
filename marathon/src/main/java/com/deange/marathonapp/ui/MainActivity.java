@@ -135,9 +135,10 @@ public class MainActivity
             @Override
             public void onQueryInventoryFinished(final IabResult result, final Inventory inv) {
 
+                mLoadedInventory = true;
+
                 if ((result.isSuccess()) && (inv != null)) {
-                    mLoadedInventory = true;
-                    Purchase purchase = inv.getPurchase(BillingConstants2.SKU_TEST);
+                    final Purchase purchase = inv.getPurchase(BillingConstants2.SKU_TEST);
                     Log.d(TAG, "purchase = " + purchase);
 
                     // If mShowAd is false, we want it to stay false

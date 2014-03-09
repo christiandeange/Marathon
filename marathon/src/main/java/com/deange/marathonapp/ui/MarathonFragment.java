@@ -11,6 +11,7 @@ import com.deange.marathonapp.controller.AchievementsController;
 import com.deange.marathonapp.controller.StateController;
 import com.deange.marathonapp.google.CloudHelper;
 import com.deange.marathonapp.model.CloudInfo;
+import com.deange.marathonapp.ui.view.MarathonView;
 
 public class MarathonFragment
         extends BaseFragment implements MarathonView.OnMileRanListener {
