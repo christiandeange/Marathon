@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" id="marathon" image-rendering="optimizeSpeed" baseProfile="basic" version="1.1" x="0px" y="0px" width="512px" height="512px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <!-- <path fill="#2890B7" fill-opacity="1" d="M512,256 C512,185.3 487,125 437,75 387,25 326.7,0 256,0 185.3,0 125,25 75,75 25,125 0,185.3 0,256 0,326.7 25,387 75,437 125,487 185.3,512 256,512 326.7,512 387,487 437,437 Q512,362 512,256z"/> -->
+    <path stroke="#FFFFFF" stroke-opacity="1" stroke-width="10" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="3" d="M371.2,374.95 L371.2,137.85 262.25,360.95 150.4,137.85 150.4,374.95"/>
+  </g>
+</svg>
