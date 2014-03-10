@@ -18,6 +18,8 @@ public final class AchievementsController {
     private static final int MILE_500_MORE = 1000;
     private static final int MILE_NILE_RIVER = 4132;
     private static final int MILE_MOON = 6786;
+    private static final int MILE_GREAT_WALL_OF_CHINA = 13171;
+    private static final int MILE_100_LIGHT_MS = 18600;
 
     private Context mContext;
     private static final Object sLock = new Object();
@@ -55,7 +57,13 @@ public final class AchievementsController {
             if (GoogleClients.getInstance().getGamesClient().isConnected()) {
 
                 // Check for all the achievements that can be unlocked
-                if (shouldUnlock(mile, MILE_MOON)) {
+                if (shouldUnlock(mile, MILE_100_LIGHT_MS)) {
+                    unlock(R.string.achievement_buzz_lighthundredmilliseconds, MILE_100_LIGHT_MS);
+
+                } else if (shouldUnlock(mile, MILE_GREAT_WALL_OF_CHINA)) {
+                    unlock(R.string.achievement_walk_the_wall, MILE_GREAT_WALL_OF_CHINA);
+
+                } else if (shouldUnlock(mile, MILE_MOON)) {
                     unlock(R.string.achievement_one_giant_marathon_for_mankind, MILE_MOON);
 
                 } else if (shouldUnlock(mile, MILE_NILE_RIVER)) {
@@ -95,9 +103,9 @@ public final class AchievementsController {
     private void unlock(final int achievementResId, final int achievementLimit) {
         final GamesClient client = GoogleClients.getInstance().getGamesClient();
         final String achievement = mContext.getString(achievementResId);
-        client.unlockAchievement(achievement);
-
         mAchievements.add(achievementLimit);
+
+        client.unlockAchievement(achievement);
     }
 
     private void submit(final int mile) {

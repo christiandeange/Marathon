@@ -9,6 +9,8 @@ Save this file as res/values/games-ids.xml in your project.
     <string name="achievement_and_i_would_walk_500_more">CgkI1ZiU1J4KEAIQBA</string>
     <string name="achievement_walk_the_nile">CgkI1ZiU1J4KEAIQBQ</string>
     <string name="achievement_one_giant_marathon_for_mankind">CgkI1ZiU1J4KEAIQBg</string>
+    <string name="achievement_walk_the_wall">CgkI1ZiU1J4KEAIQCQ</string>
+    <string name="achievement_buzz_lighthundredmilliseconds">CgkI1ZiU1J4KEAIQCg</string>
 
     <string name="leaderboard_total_distance_ran">CgkI1ZiU1J4KEAIQAQ</string>
 
