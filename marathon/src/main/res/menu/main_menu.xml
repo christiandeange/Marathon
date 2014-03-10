@@ -4,8 +4,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-            android:id="@+id/menu_test"
-            android:title="Buy Free purchase"
+            android:id="@+id/menu_disable_ads"
+            android:title="@string/menu_disable_ads"
             android:showAsAction="never" />
 
     <item

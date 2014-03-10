@@ -22,15 +22,15 @@ import com.deange.marathonapp.R;
  * Date: 06/03/2014
  * Time: 10:19
  */
-public class ShimmerTextView extends TextView {
-
-    private static final String TAG = ShimmerTextView.class.getSimpleName();
+public class ShimmerTextView
+        extends TextView
+        implements Animator.AnimatorListener {
 
     private static final int DEFAULT_REFLECTION_COLOR = 0xFFAAAAAA;
 
     // center position of the gradient
     private float gradientX;
-    private LinearGradientFactory linearGradientFactory;
+    private ShapeDrawable.ShaderFactory linearGradientFactory;
     private int reflectionColor;
 
     // true when animating
@@ -151,29 +151,7 @@ public class ShimmerTextView extends TextView {
                 animator.setRepeatCount(ValueAnimator.INFINITE);
                 animator.setDuration(durationMillis);
                 animator.setStartDelay(0);
-                animator.addListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        setShimmering(false);
-                        postInvalidate();
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-                        setShimmering(false);
-                        postInvalidate();
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                });
+                animator.addListener(ShimmerTextView.this);
                 if (animatorListener != null) {
                     animator.addListener(animatorListener);
                 }
@@ -191,6 +169,28 @@ public class ShimmerTextView extends TextView {
         } else {
             animate.run();
         }
+    }
+
+    @Override
+    public void onAnimationStart(Animator animation) {
+        // Nothing to do here
+    }
+
+    @Override
+    public void onAnimationEnd(Animator animation) {
+        setShimmering(false);
+        postInvalidate();
+    }
+
+    @Override
+    public void onAnimationCancel(Animator animation) {
+        setShimmering(false);
+        postInvalidate();
+    }
+
+    @Override
+    public void onAnimationRepeat(Animator animation) {
+        // Nothing to do here
     }
 
     /**

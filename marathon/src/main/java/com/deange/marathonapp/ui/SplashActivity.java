@@ -3,24 +3,27 @@ package com.deange.marathonapp.ui;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 
 import com.deange.marathonapp.R;
+import com.deange.marathonapp.ui.view.LogoView;
 import com.deange.marathonapp.ui.view.ShimmerTextView;
 import com.deange.marathonapp.utils.Utils;
 import com.deange.marathonapp.google.BaseGameActivity;
 
 public class SplashActivity extends BaseGameActivity {
 
-    private static final int WAIT_MINIMUM_DELAY = 2000;
+    private static final int WAIT_MINIMUM_DELAY = 3000;
     private static final int WAIT_INTERVAL_DELAY = 500;
 
     private boolean mReceivedResult = false;
     private boolean mIsSignedIn = false;
 
-    private ShimmerTextView mTitleView;
     private ProgressBar mProgressBar;
 
     @Override
@@ -29,12 +32,9 @@ public class SplashActivity extends BaseGameActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        mTitleView = (ShimmerTextView) findViewById(R.id.splash_screen_title);
         mProgressBar = (ProgressBar) findViewById(R.id.splash_screen_progress_bar);
 
         mReceivedResult = false;
-
-        mTitleView.animate(null, 1000);
 
         new AsyncTask<Void, Integer, Boolean>() {
             @Override
@@ -72,6 +72,14 @@ public class SplashActivity extends BaseGameActivity {
         }.execute();
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            getWindow().getDecorView().setSystemUiVisibility(Utils.calculateWindowFlags());
+        }
+    }
+
     private void resolveActivity() {
 
         // Decide which activity we should open. Decisions, decisions...
@@ -80,7 +88,7 @@ public class SplashActivity extends BaseGameActivity {
         startActivity(intent);
         finish();
 
-        overridePendingTransition(android.R.anim.fade_in, R.anim.slide_down);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override

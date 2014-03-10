@@ -9,6 +9,7 @@
         <item quantity="other">%s miles</item>
     </plurals>
 
+    <string name="menu_disable_ads">Disable Ads</string>
     <string name="menu_achievements">Achievements</string>
     <string name="menu_leaderboards">Leaderboards</string>
     <string name="menu_sign_out">Sign Out</string>

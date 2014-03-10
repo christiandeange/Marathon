@@ -2,4 +2,6 @@
 
     <dimen name="mile_height">1000dp</dimen>
 
+    <dimen name="logo_size">100dp</dimen>
+
 </resources>

@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <declare-styleable name="ShimmerTextView">
         <attr name="reflectionColor" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="LogoView">
+        <attr name="strokeWidth" format="float" />
+        <attr name="strokeColor" format="color|reference" />
+        <attr name="phase" format="float" />
+        <attr name="duration" format="integer" />
+        <attr name="fadeFactor" format="float" />
+    </declare-styleable>
+
 </resources>

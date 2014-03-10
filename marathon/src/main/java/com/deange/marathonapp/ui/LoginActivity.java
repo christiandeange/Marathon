@@ -3,9 +3,13 @@ package com.deange.marathonapp.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.deange.marathonapp.R;
+import com.deange.marathonapp.ui.view.LogoView;
+import com.deange.marathonapp.ui.view.ShimmerTextView;
 import com.deange.marathonapp.utils.Utils;
 import com.deange.marathonapp.controller.StateController;
 import com.deange.marathonapp.google.BaseGameActivity;
@@ -26,7 +30,10 @@ public class LoginActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
 
-        findViewById(R.id.gplus_signin_button).setOnClickListener(this);
+        findViewById(R.id.auth_gplus_signin_button).setOnClickListener(this);
+
+        final ShimmerTextView titleView = (ShimmerTextView) findViewById(R.id.auth_title);
+        titleView.animate(null, 2000);
     }
 
     @Override
@@ -56,7 +63,7 @@ public class LoginActivity
 
     @Override
     public void onClick(final View v) {
-        if (v.getId() == R.id.gplus_signin_button) {
+        if (v.getId() == R.id.auth_gplus_signin_button) {
             beginUserInitiatedSignIn();
         }
     }

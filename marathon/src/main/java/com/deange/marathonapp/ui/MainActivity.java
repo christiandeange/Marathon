@@ -4,9 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -82,8 +80,8 @@ public class MainActivity
 
         switch (item.getItemId()) {
 
-            case R.id.menu_test:
-                handleTest();
+            case R.id.menu_disable_ads:
+                handleDisableAds();
                 handled = true;
                 break;
 
@@ -106,7 +104,7 @@ public class MainActivity
         return handled;
     }
 
-    private void handleTest() {
+    private void handleDisableAds() {
 
         BillingController.getInstance().purchase(this, BillingConstants2.SKU_TEST, new IabHelper.OnIabPurchaseFinishedListener() {
 
@@ -159,6 +157,7 @@ public class MainActivity
             final AdRequest.Builder requestBuilder = new AdRequest.Builder();
             if (BuildConfig.DEBUG) {
                 requestBuilder.addTestDevice("FCCD174D5B83FA1062468A3C8E63AF38");
+                requestBuilder.addTestDevice("3625DBB97CCC0A856E5E127A0F0A3B03");
             }
 
             final AdRequest adRequest = requestBuilder.build();
@@ -175,11 +174,10 @@ public class MainActivity
     }
 
     private void handleLeaderBoards() {
-        final GamesClient client = GoogleClients.getInstance().getGamesClient();
         AchievementsController.getInstance().notifyLeaderBoardImmediate(
                 StateController.getInstance().getMilesRan());
-        startActivityForResult(client.getLeaderboardIntent(
-                getString(R.string.leaderboard_total_distance_ran)), 0);
+        startActivityForResult(GoogleClients.getInstance().getGamesClient()
+                .getLeaderboardIntent(getString(R.string.leaderboard_total_distance_ran)), 0);
     }
 
     private void handleSignout() {
@@ -195,7 +193,7 @@ public class MainActivity
         mPopupMenu = new PopupMenu(this, overflowView);
         mPopupMenu.setOnMenuItemClickListener(this);
         mPopupMenu.inflate(R.menu.main_menu);
-        mRemoveAdsItem = mPopupMenu.getMenu().findItem(R.id.menu_test);
+        mRemoveAdsItem = mPopupMenu.getMenu().findItem(R.id.menu_disable_ads);
 
         if (PlatformUtils.hasKitKat()) {
             overflowView.setOnTouchListener(mPopupMenu.getDragToOpenListener());
