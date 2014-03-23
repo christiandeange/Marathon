@@ -18,10 +18,8 @@ package com.deange.marathonapp.google;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 
 import com.deange.marathonapp.controller.BillingController;
-import com.deange.marathonapp.controller.GoogleClients;
 import com.deange.marathonapp.ui.ImmersiveActivity;
 import com.google.android.gms.appstate.AppStateClient;
 import com.google.android.gms.games.GamesClient;

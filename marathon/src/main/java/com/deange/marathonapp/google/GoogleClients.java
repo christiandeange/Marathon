@@ -1,4 +1,4 @@
-package com.deange.marathonapp.controller;
+package com.deange.marathonapp.google;
 
 import android.content.Context;
 import android.util.Pair;

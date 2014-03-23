@@ -9,7 +9,7 @@ import android.util.Log;
 
 import com.deange.marathonapp.controller.AchievementsController;
 import com.deange.marathonapp.controller.BillingController;
-import com.deange.marathonapp.controller.GoogleClients;
+import com.deange.marathonapp.google.GoogleClients;
 import com.deange.marathonapp.controller.GsonController;
 import com.deange.marathonapp.controller.StateController;
 

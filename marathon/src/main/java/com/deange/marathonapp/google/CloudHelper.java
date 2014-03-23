@@ -2,8 +2,6 @@ package com.deange.marathonapp.google;
 
 import android.util.Log;
 
-import com.deange.marathonapp.controller.GoogleClients;
-import com.deange.marathonapp.controller.GsonController;
 import com.deange.marathonapp.model.CloudInfo;
 import com.google.android.gms.appstate.AppStateClient;
 import com.google.android.gms.appstate.OnStateLoadedListener;

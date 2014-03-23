@@ -36,7 +36,6 @@ import android.util.Pair;
 
 import com.deange.marathonapp.BuildConfig;
 import com.deange.marathonapp.R;
-import com.deange.marathonapp.controller.GoogleClients;
 import com.google.android.gms.appstate.AppStateClient;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
