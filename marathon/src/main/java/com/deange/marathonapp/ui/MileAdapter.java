@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.deange.marathonapp.R;
 import com.deange.marathonapp.ui.view.MarathonView;
 
+import java.text.NumberFormat;
+
 public class MileAdapter extends BaseAdapter {
 
     public static final String TAG = MileAdapter.class.getSimpleName();
@@ -29,7 +31,7 @@ public class MileAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return MarathonView.TOTAL_MILES;
+        return MarathonView.TOTAL_MILES + 1;
     }
 
     @Override
@@ -57,17 +59,19 @@ public class MileAdapter extends BaseAdapter {
 
             final LinearLayout markersContainer = (LinearLayout) view.findViewById(R.id.list_item_mile_markers_container);
 
-            for (int i = 0; i < MARKER_COUNT; i++) {
+            if (SHOW_MILE_MARKERS) {
+                for (int i = 0; i < MARKER_COUNT; i++) {
 
-                final View markerView = mInflater.inflate(R.layout.list_item_mile_marker, null);
-                final TextView markerTextView = (TextView) markerView.findViewById(R.id.list_item_marker_text);
+                    final View markerView = mInflater.inflate(R.layout.list_item_mile_marker, null);
+                    final TextView markerTextView = (TextView) markerView.findViewById(R.id.list_item_marker_text);
 
-                final String markerText = (i == 0) ? "-" : String.valueOf(i);
-                markerTextView.setText(markerText);
-                markersContainer.addView(markerView);
+                    final String markerText = (i == 0) ? "-" : String.valueOf(i);
+                    markerTextView.setText(markerText);
+                    markersContainer.addView(markerView);
 
-                // Each one of the markers takes up an equal amount of space
-                ((LinearLayout.LayoutParams) markerView.getLayoutParams()).weight = 1;
+                    // Each one of the markers takes up an equal amount of space
+                    ((LinearLayout.LayoutParams) markerView.getLayoutParams()).weight = 1;
+                }
             }
 
         } else {
@@ -85,7 +89,14 @@ public class MileAdapter extends BaseAdapter {
         }
 
         final int mile = getItem(position);
-        final String markerText = mContext.getResources().getQuantityString(R.plurals.mile_marker, mile, mile);
+        String markerText = mContext.getResources().getQuantityString(
+                R.plurals.mile_marker, mile, NumberFormat.getInstance().format(mile));
+
+        if (mile == getCount() - 1) {
+            // Congratulations! This is the end!
+            markerText = mContext.getString(R.string.the_last_mile_marker);
+        }
+
         ((TextView) view.findViewById(R.id.list_item_mile_textview)).setText(markerText);
 
         return view;
