@@ -3,14 +3,19 @@ package com.deange.marathonapp.ui;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.crashlytics.android.Crashlytics;
 import com.deange.marathonapp.R;
 import com.deange.marathonapp.google.BaseGameActivity;
+import com.deange.marathonapp.google.GoogleClients;
 import com.deange.marathonapp.utils.Utils;
 
 public class SplashActivity extends BaseGameActivity {
+
+    private static final String TAG = SplashActivity.class.getSimpleName();
 
     private static final int WAIT_MINIMUM_DELAY = 3000;
     private static final int WAIT_INTERVAL_DELAY = 500;
@@ -87,6 +92,10 @@ public class SplashActivity extends BaseGameActivity {
     public void onSignInSucceeded() {
         mIsSignedIn = true;
         mReceivedResult = true;
+
+        final String accountName = GoogleClients.getInstance().getPlusClient().getAccountName();
+        Log.v(TAG, "Account: " + accountName);
+        Crashlytics.setUserEmail(accountName);
     }
 
     @Override
