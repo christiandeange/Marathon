@@ -208,14 +208,6 @@ public class MainActivity
     }
 
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            getWindow().getDecorView().setSystemUiVisibility(Utils.calculateWindowFlags());
-        }
-    }
-
-    @Override
     public void onSignInSucceeded() {
     }
 

@@ -37,14 +37,6 @@ public class LoginActivity
     }
 
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            getWindow().getDecorView().setSystemUiVisibility(Utils.calculateWindowFlags());
-        }
-    }
-
-    @Override
     public void onSignInFailed() {
         // Nothing to do here
     }

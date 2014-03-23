@@ -22,6 +22,7 @@ import android.support.v4.app.FragmentActivity;
 
 import com.deange.marathonapp.controller.BillingController;
 import com.deange.marathonapp.controller.GoogleClients;
+import com.deange.marathonapp.ui.ImmersiveActivity;
 import com.google.android.gms.appstate.AppStateClient;
 import com.google.android.gms.games.GamesClient;
 import com.google.android.gms.plus.PlusClient;
@@ -43,7 +44,7 @@ import com.google.android.gms.plus.PlusClient;
  *
  * @author Bruno Oliveira (Google)
  */
-public abstract class BaseGameActivity extends FragmentActivity
+public abstract class BaseGameActivity extends ImmersiveActivity
         implements GameHelper.GameHelperListener {
 
     // The game helper object. This class is mainly a wrapper around this object.

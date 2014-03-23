@@ -72,14 +72,6 @@ public class SplashActivity extends BaseGameActivity {
         }.execute();
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            getWindow().getDecorView().setSystemUiVisibility(Utils.calculateWindowFlags());
-        }
-    }
-
     private void resolveActivity() {
 
         // Decide which activity we should open. Decisions, decisions...
