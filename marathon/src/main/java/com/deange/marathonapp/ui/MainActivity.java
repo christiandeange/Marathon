@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
 
+import com.crashlytics.android.Crashlytics;
 import com.deange.marathonapp.BuildConfig;
 import com.deange.marathonapp.billing.AdDelegate;
 import com.deange.marathonapp.billing.BillingConstants;
@@ -216,6 +217,9 @@ public class MainActivity
 
     @Override
     public void onSignOutSucceeded() {
+
+        // Clear user email
+        Crashlytics.setUserEmail(null);
 
         // Remove all prefs
         StateController.getInstance().clear();
