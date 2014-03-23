@@ -17,6 +17,7 @@ public class MarathonFragment
         extends BaseFragment implements MarathonView.OnMileRanListener {
 
     public static final String TAG = MarathonFragment.class.getSimpleName();
+    public static final String KEY_CLOUD_STATE = "cloudState";
     public static final String KEY_MILES_RAN = "milesRan";
     public static final String KEY_MILES_OFFSET = "milesOffset";
     public static final int MILES_UPDATE_STATE_INTERVAL = 10;
@@ -43,10 +44,12 @@ public class MarathonFragment
             // Recovering from rotation, restore the index/offset
             milesRan = savedInstanceState.getInt(KEY_MILES_RAN);
             offset = savedInstanceState.getInt(KEY_MILES_OFFSET);
+            mCloudInfo = CloudInfo.deserialize(savedInstanceState.getString(KEY_CLOUD_STATE), CloudInfo.class);
 
         } else {
             // First fragment load, retrieve saved value
             milesRan = StateController.getInstance().getMilesRan();
+            mCloudInfo.setMilesRan(milesRan);
             offset = 0;
         }
 
@@ -68,6 +71,7 @@ public class MarathonFragment
         final View view = mMarathonView.getChildAt(0);
         final int offset = (view == null) ? 0 : view.getTop();
 
+        outState.putString(KEY_CLOUD_STATE, mCloudInfo.serialize());
         outState.putInt(KEY_MILES_RAN, index);
         outState.putInt(KEY_MILES_OFFSET, offset);
         super.onSaveInstanceState(outState);
