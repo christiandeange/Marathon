@@ -3,6 +3,7 @@ package com.deange.marathonapp.controller;
 import android.content.Context;
 
 import com.deange.marathonapp.R;
+import com.deange.marathonapp.ui.view.MarathonView;
 import com.google.android.gms.games.GamesClient;
 
 import java.util.HashSet;
@@ -20,6 +21,7 @@ public final class AchievementsController {
     private static final int MILE_MOON = 6786;
     private static final int MILE_GREAT_WALL_OF_CHINA = 13171;
     private static final int MILE_100_LIGHT_MS = 18600;
+    private static final int MILE_THIS_IS_THE_END = MarathonView.TOTAL_MILES;
 
     private Context mContext;
     private static final Object sLock = new Object();
@@ -57,7 +59,10 @@ public final class AchievementsController {
             if (GoogleClients.getInstance().getGamesClient().isConnected()) {
 
                 // Check for all the achievements that can be unlocked
-                if (shouldUnlock(mile, MILE_100_LIGHT_MS)) {
+                if (shouldUnlock(mile, MILE_THIS_IS_THE_END)) {
+                    unlock(R.string.achievement_this_is_the_end, MILE_THIS_IS_THE_END);
+
+                } else if (shouldUnlock(mile, MILE_100_LIGHT_MS)) {
                     unlock(R.string.achievement_buzz_lighthundredmilliseconds, MILE_100_LIGHT_MS);
 
                 } else if (shouldUnlock(mile, MILE_GREAT_WALL_OF_CHINA)) {
@@ -80,8 +85,10 @@ public final class AchievementsController {
                 }
 
                 // Submit score to leaderboards
+                // Throttled to deter rate-limiting from the network
                 final long now = System.currentTimeMillis();
                 if ((now - mLastLeaderboardSubmission >= LEADERBOARD_SUBMISSION_INTERVAL)) {
+                    mLastLeaderboardSubmission = System.currentTimeMillis();
                     submit(mile);
                 }
             }
@@ -109,10 +116,9 @@ public final class AchievementsController {
     }
 
     private void submit(final int mile) {
-        if (GoogleClients.getInstance().getGamesClient().isConnected()) {
-            mLastLeaderboardSubmission = System.currentTimeMillis();
-            GoogleClients.getInstance().getGamesClient().submitScore(
-                    mContext.getString(R.string.leaderboard_total_distance_ran), mile);
+        final GamesClient client = GoogleClients.getInstance().getGamesClient();
+        if (client.isConnected()) {
+            client.submitScore(mContext.getString(R.string.leaderboard_total_distance_ran), mile);
         }
     }
 
