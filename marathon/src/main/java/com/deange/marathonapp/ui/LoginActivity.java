@@ -64,10 +64,7 @@ public class LoginActivity
     public void onStateLoaded(final int statusCode, final int stateKey, final byte[] localData) {
         Log.v(TAG, "onStateLoaded()");
 
-        if (localData != null) {
-            final CloudInfo info = CloudHelper.convert(localData);
-            StateController.getInstance().setMilesRan(info.getMilesRan());
-        }
+        CloudHelper.onStateLoaded(statusCode, stateKey, localData);
         startMarathonActivity();
     }
 
@@ -75,20 +72,13 @@ public class LoginActivity
     public void onStateConflict(final int stateKey, final String resolvedVersion, final byte[] localData, final byte[] serverData) {
         Log.v(TAG, "onStateConflict()");
 
-        final CloudInfo serverInfo = CloudHelper.convert(serverData);
-        final CloudInfo localInfo = CloudHelper.convert(localData);
-
-        // Manually resolve the conflict
-        final CloudInfo resolvedInfo = CloudHelper.resolveConflict(serverInfo, localInfo);
-
-        // Signal to the AppStateClient that we have resolved the right version of the info
-        getAppStateClient().resolveState(this, stateKey, resolvedVersion, CloudHelper.convert(resolvedInfo));
-
+        CloudHelper.onStateConflict(stateKey, resolvedVersion, localData, serverData, getAppStateClient(), this);
         startMarathonActivity();
     }
 
     private void startMarathonActivity() {
         Log.v(TAG, "startMarathonActivity()");
+
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }

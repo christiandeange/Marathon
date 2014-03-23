@@ -2,6 +2,7 @@ package com.deange.marathonapp.google;
 
 import android.util.Log;
 
+import com.deange.marathonapp.controller.StateController;
 import com.deange.marathonapp.model.CloudInfo;
 import com.google.android.gms.appstate.AppStateClient;
 import com.google.android.gms.appstate.OnStateLoadedListener;
@@ -85,6 +86,29 @@ public final class CloudHelper {
         }
 
         return resolvedInfo;
+    }
+
+    public static void onStateLoaded(final int statusCode, final int stateKey, final byte[] localData) {
+        Log.v(TAG, "onStateLoaded()");
+
+        if (localData != null) {
+            final CloudInfo info = CloudHelper.convert(localData);
+            StateController.getInstance().setMilesRan(info.getMilesRan());
+        }
+    }
+
+    public static void onStateConflict(final int stateKey, final String resolvedVersion, final byte[] localData, final byte[] serverData,
+                                final AppStateClient client, final OnStateLoadedListener listener) {
+        Log.v(TAG, "onStateConflict()");
+
+        final CloudInfo serverInfo = convert(serverData);
+        final CloudInfo localInfo = convert(localData);
+
+        // Manually resolve the conflict
+        final CloudInfo resolvedInfo = resolveConflict(serverInfo, localInfo);
+
+        // Signal to the AppStateClient that we have resolved the right version of the info
+        client.resolveState(listener, stateKey, resolvedVersion, CloudHelper.convert(resolvedInfo));
     }
 
     private CloudHelper() {
