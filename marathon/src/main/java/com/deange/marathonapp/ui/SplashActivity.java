@@ -3,18 +3,12 @@ package com.deange.marathonapp.ui;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.DragEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import com.deange.marathonapp.R;
-import com.deange.marathonapp.ui.view.LogoView;
-import com.deange.marathonapp.ui.view.ShimmerTextView;
-import com.deange.marathonapp.utils.Utils;
 import com.deange.marathonapp.google.BaseGameActivity;
+import com.deange.marathonapp.utils.Utils;
 
 public class SplashActivity extends BaseGameActivity {
 

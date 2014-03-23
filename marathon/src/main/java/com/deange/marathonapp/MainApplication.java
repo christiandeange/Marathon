@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.deange.marathonapp.controller.AchievementsController;
 import com.deange.marathonapp.controller.BillingController;
 import com.deange.marathonapp.google.GoogleClients;
@@ -25,6 +26,12 @@ public class MainApplication extends Application {
         super.onCreate();
 
         try {
+
+            /**
+             * Intantiate Crashlytics
+             */
+            Crashlytics.start(this);
+
             /**
              * Instantiate the GSON cache
              */

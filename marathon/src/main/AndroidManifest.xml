@@ -46,6 +46,7 @@
 
         <activity android:name="com.google.android.gms.ads.AdActivity"
                   android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="70e0d8ad9f9cb44bcde789a98beb9bec6d9d1241"/>
 
     </application>
 
