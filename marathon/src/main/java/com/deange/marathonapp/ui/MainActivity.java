@@ -96,8 +96,8 @@ public class MainActivity
                 break;
 
             case R.id.menu_logout:
-                handled = true;
                 handleSignout();
+                handled = true;
                 break;
         }
 
@@ -135,7 +135,7 @@ public class MainActivity
 
                 mLoadedInventory = true;
 
-                if ((result.isSuccess()) && (inv != null)) {
+                if ((result != null) && (result.isSuccess()) && (inv != null)) {
                     final Purchase purchase = inv.getPurchase(BillingConstants2.SKU_TEST);
                     Log.d(TAG, "purchase = " + purchase);
 

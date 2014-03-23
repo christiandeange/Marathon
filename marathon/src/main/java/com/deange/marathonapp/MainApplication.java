@@ -55,7 +55,9 @@ public class MainApplication extends Application {
         }
 
 
-        Log.i(TAG, "Signing key hash: " + getSignatureHashKey(getApplicationContext()));
+        if (BuildConfig.DEBUG) {
+            Log.i(TAG, "Signing key hash: " + getSignatureHashKey(getApplicationContext()));
+        }
     }
 
     public static String getSignatureHashKey(final Context context) {
