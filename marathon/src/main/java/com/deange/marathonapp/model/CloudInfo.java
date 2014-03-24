@@ -24,6 +24,10 @@ public class CloudInfo
         update();
     }
 
+    public long getTimestamp() {
+        return mTimestamp;
+    }
+
     // Should be called on every setter, so that we can keep track of any mutable field changes.
     // Useful for resolving conflicts from the Google App State API
     private void update() {

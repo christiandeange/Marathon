@@ -16,6 +16,7 @@ import com.deange.marathonapp.billing.BillingConstants;
 import com.deange.marathonapp.billing.BillingConstants2;
 import com.deange.marathonapp.billing.IabHelper;
 import com.deange.marathonapp.billing.IabResult;
+import com.deange.marathonapp.google.CloudHelper;
 import com.deange.marathonapp.model.Inventory;
 import com.deange.marathonapp.model.Purchase;
 import com.deange.marathonapp.controller.AchievementsController;
@@ -27,11 +28,12 @@ import com.deange.marathonapp.controller.StateController;
 import com.deange.marathonapp.google.BaseGameActivity;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.appstate.OnStateLoadedListener;
 import com.google.android.gms.games.GamesClient;
 
 public class MainActivity
         extends BaseGameActivity
-        implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, AdDelegate.Listener<InterstitialAd> {
+        implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, AdDelegate.Listener<InterstitialAd>, OnStateLoadedListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -68,6 +70,8 @@ public class MainActivity
                     .add(R.id.container, fragment, MarathonFragment.TAG)
                     .commit();
         }
+
+        CloudHelper.getState(this, CloudHelper.KEY_GAME_STATE);
 
         checkInventory();
         showAdIfNecessary();
@@ -261,5 +265,15 @@ public class MainActivity
             mShowAd = false;
             ad.show();
         }
+    }
+
+    @Override
+    public void onStateLoaded(final int statusCode, final int stateKey, final byte[] localData) {
+        CloudHelper.onStateLoaded(statusCode, stateKey, localData);
+    }
+
+    @Override
+    public void onStateConflict(final int stateKey, final String resolvedVersion, final byte[] localData, final byte[] serverData) {
+        CloudHelper.onStateConflict(stateKey, resolvedVersion, localData, serverData, getAppStateClient(), this);
     }
 }

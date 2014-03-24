@@ -16,6 +16,8 @@ public final class CloudHelper {
 
     public static final int KEY_GAME_STATE = 0;
 
+    private static long mLastSave = 0;
+
     public static byte[] convert(final CloudInfo cloudInfo) {
 
         byte[] bytes = null;
@@ -37,11 +39,16 @@ public final class CloudHelper {
     }
 
     public static void updateState(final int stateKey, final CloudInfo cloudInfo) {
-        final AppStateClient client = GoogleClients.getInstance().getAppStateClient();
-        if (client.isConnected()) {
-            final byte[] infoInBytes = convert(cloudInfo);
-            client.updateState(stateKey, infoInBytes);
+
+        // Only update the state if this one is technically "after" the last time we saved
+        if (updateTime(cloudInfo)) {
+            final AppStateClient client = GoogleClients.getInstance().getAppStateClient();
+            if (client.isConnected()) {
+                final byte[] infoInBytes = convert(cloudInfo);
+                client.updateState(stateKey, infoInBytes);
+            }
         }
+
     }
 
     public static void getState(final OnStateLoadedListener listener, final int stateKey) {
@@ -91,8 +98,9 @@ public final class CloudHelper {
     public static void onStateLoaded(final int statusCode, final int stateKey, final byte[] localData) {
         Log.v(TAG, "onStateLoaded()");
 
-        if (localData != null) {
-            final CloudInfo info = CloudHelper.convert(localData);
+        final CloudInfo info = CloudHelper.convert(localData);
+        if (info != null) {
+            updateTime(info);
             StateController.getInstance().setMilesRan(info.getMilesRan());
         }
     }
@@ -107,8 +115,21 @@ public final class CloudHelper {
         // Manually resolve the conflict
         final CloudInfo resolvedInfo = resolveConflict(serverInfo, localInfo);
 
+        updateTime(resolvedInfo);
+
         // Signal to the AppStateClient that we have resolved the right version of the info
         client.resolveState(listener, stateKey, resolvedVersion, CloudHelper.convert(resolvedInfo));
+    }
+
+    // Returns true if the new CloudInfo object has a later timestamp than the saved one
+    private static boolean updateTime(final CloudInfo info) {
+        if (info != null && info.getTimestamp() >= mLastSave) {
+            mLastSave = info.getTimestamp();
+            return true;
+
+        } else {
+            return false;
+        }
     }
 
     private CloudHelper() {
