@@ -33,7 +33,7 @@ import com.google.android.gms.games.GamesClient;
 
 public class MainActivity
         extends BaseGameActivity
-        implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, AdDelegate.Listener<InterstitialAd>, OnStateLoadedListener {
+        implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, AdDelegate.Listener<InterstitialAd> {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -71,7 +71,7 @@ public class MainActivity
                     .commit();
         }
 
-        CloudHelper.getState(this, CloudHelper.KEY_GAME_STATE);
+        CloudHelper.getState(new CloudHelper.SimpleStateListenerDelegate(), CloudHelper.KEY_GAME_STATE);
 
         checkInventory();
         showAdIfNecessary();
@@ -265,13 +265,4 @@ public class MainActivity
         }
     }
 
-    @Override
-    public void onStateLoaded(final int statusCode, final int stateKey, final byte[] localData) {
-        CloudHelper.onStateLoaded(statusCode, stateKey, localData);
-    }
-
-    @Override
-    public void onStateConflict(final int stateKey, final String resolvedVersion, final byte[] localData, final byte[] serverData) {
-        CloudHelper.onStateConflict(stateKey, resolvedVersion, localData, serverData, getAppStateClient(), this);
-    }
 }

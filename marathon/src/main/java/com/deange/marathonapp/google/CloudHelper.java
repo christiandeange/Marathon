@@ -132,6 +132,20 @@ public final class CloudHelper {
         }
     }
 
+    public static class SimpleStateListenerDelegate
+        implements OnStateLoadedListener {
+
+        @Override
+        public void onStateLoaded(final int statusCode, final int stateKey, final byte[] localData) {
+            CloudHelper.onStateLoaded(statusCode, stateKey, localData);
+        }
+
+        @Override
+        public void onStateConflict(final int stateKey, final String resolvedVersion, final byte[] localData, final byte[] serverData) {
+            CloudHelper.onStateConflict(stateKey, resolvedVersion, localData, serverData, GoogleClients.getInstance().getAppStateClient(), this);
+        }
+    }
+
     private CloudHelper() {
         // Not instantiable
     }

@@ -14,7 +14,8 @@ import com.deange.marathonapp.model.CloudInfo;
 import com.deange.marathonapp.ui.view.MarathonView;
 
 public class MarathonFragment
-        extends BaseFragment implements MarathonView.OnMileRanListener {
+        extends BaseFragment
+        implements MarathonView.OnMileRanListener {
 
     public static final String TAG = MarathonFragment.class.getSimpleName();
     public static final String KEY_CLOUD_STATE = "cloudState";

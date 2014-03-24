@@ -10,10 +10,13 @@ import android.widget.ProgressBar;
 import com.crashlytics.android.Crashlytics;
 import com.deange.marathonapp.R;
 import com.deange.marathonapp.google.BaseGameActivity;
+import com.deange.marathonapp.google.CloudHelper;
 import com.deange.marathonapp.google.GoogleClients;
 import com.deange.marathonapp.utils.Utils;
+import com.google.android.gms.appstate.OnStateLoadedListener;
 
-public class SplashActivity extends BaseGameActivity {
+public class SplashActivity
+        extends BaseGameActivity {
 
     private static final String TAG = SplashActivity.class.getSimpleName();
 
@@ -93,6 +96,8 @@ public class SplashActivity extends BaseGameActivity {
         mIsSignedIn = true;
         mReceivedResult = true;
 
+        CloudHelper.getState(new CloudHelper.SimpleStateListenerDelegate(), CloudHelper.KEY_GAME_STATE);
+
         final String accountName = getPlusClient().getAccountName();
         Log.v(TAG, "Account: " + accountName);
         Crashlytics.setUserEmail(accountName);
@@ -103,4 +108,5 @@ public class SplashActivity extends BaseGameActivity {
         mIsSignedIn = false;
         mReceivedResult = true;
     }
+
 }
