@@ -54,7 +54,7 @@ public class LoginActivity
         Log.v(TAG, "onSignInSucceeded()");
         CloudHelper.getState(this, CloudHelper.KEY_GAME_STATE);
 
-        final String accountName = GoogleClients.getInstance().getPlusClient().getAccountName();
+        final String accountName = getPlusClient().getAccountName();
         Log.v(TAG, "Account: " + accountName);
         Crashlytics.setUserEmail(accountName);
     }

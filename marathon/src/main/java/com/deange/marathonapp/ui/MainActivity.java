@@ -173,15 +173,13 @@ public class MainActivity
     }
 
     private void handleAchievements() {
-        final GamesClient client = GoogleClients.getInstance().getGamesClient();
-        startActivityForResult(client.getAchievementsIntent(), 0);
+        startActivityForResult(getGamesClient().getAchievementsIntent(), 0);
     }
 
     private void handleLeaderBoards() {
         AchievementsController.getInstance().notifyLeaderBoardImmediate(
                 StateController.getInstance().getMilesRan());
-        startActivityForResult(GoogleClients.getInstance().getGamesClient()
-                .getLeaderboardIntent(getString(R.string.leaderboard_total_distance_ran)), 0);
+        startActivityForResult(getGamesClient().getLeaderboardIntent(getString(R.string.leaderboard_total_distance_ran)), 0);
     }
 
     private void handleSignout() {

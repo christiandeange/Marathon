@@ -93,7 +93,7 @@ public class SplashActivity extends BaseGameActivity {
         mIsSignedIn = true;
         mReceivedResult = true;
 
-        final String accountName = GoogleClients.getInstance().getPlusClient().getAccountName();
+        final String accountName = getPlusClient().getAccountName();
         Log.v(TAG, "Account: " + accountName);
         Crashlytics.setUserEmail(accountName);
     }
