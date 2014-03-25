@@ -110,7 +110,7 @@ public class MainActivity
 
     private void handleDisableAds() {
 
-        BillingController.getInstance().purchase(this, BillingConstants2.SKU_TEST, new IabHelper.OnIabPurchaseFinishedListener() {
+        BillingController.getInstance().purchase(this, BillingConstants2.SKU_NO_ADS, new IabHelper.OnIabPurchaseFinishedListener() {
 
             @Override
             public void onIabPurchaseFinished(final IabResult result, final Purchase purchase) {
@@ -140,7 +140,7 @@ public class MainActivity
                 mLoadedInventory = true;
 
                 if ((result != null) && (result.isSuccess()) && (inv != null)) {
-                    final Purchase purchase = inv.getPurchase(BillingConstants2.SKU_TEST);
+                    final Purchase purchase = inv.getPurchase(BillingConstants2.SKU_NO_ADS);
                     Log.d(TAG, "purchase = " + purchase);
 
                     // If mShowAd is false, we want it to stay false
