@@ -118,7 +118,9 @@ public final class CloudHelper {
         updateTime(resolvedInfo);
 
         // Signal to the AppStateClient that we have resolved the right version of the info
-        client.resolveState(listener, stateKey, resolvedVersion, CloudHelper.convert(resolvedInfo));
+        if (client.isConnected()) {
+            client.resolveState(listener, stateKey, resolvedVersion, CloudHelper.convert(resolvedInfo));
+        }
     }
 
     // Returns true if the new CloudInfo object has a later timestamp than the saved one

@@ -55,7 +55,7 @@ public abstract class BaseGameActivity extends ImmersiveActivity
     public static final int CLIENT_PLUS = GoogleClients.CLIENT_PLUS;
     public static final int CLIENT_ALL = GoogleClients.CLIENT_ALL;
 
-    // Requested clients. By default, that's just the games client.
+    // Requested clients. By default, that's all of them.
     protected int mRequestedClients = CLIENT_ALL;
 
     // stores any additional scopes.
