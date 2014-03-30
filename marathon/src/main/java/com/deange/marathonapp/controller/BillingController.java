@@ -17,14 +17,13 @@ import java.util.Map;
 
 public final class BillingController {
 
-    private static final String TAG = BillingController.class.getSimpleName();
-
+    public static final String TAG = BillingController.class.getSimpleName();
     public static final int PURCHASE_REQUEST_CODE = 10001;
 
     private static final Object sLock = new Object();
     private static BillingController sInstance;
 
-    private IabHelper mHelper;
+    private final IabHelper mHelper;
 
     public static BillingController createInstance(final Context context) {
         synchronized (sLock) {
@@ -59,14 +58,21 @@ public final class BillingController {
     // Synchronous
     public Inventory queryInventory() throws IabException {
         synchronized (sLock) {
-            return mHelper.queryInventory(true, null);
+            if (mHelper.isSetupDone()) {
+                return mHelper.queryInventory(true, null);
+
+            } else {
+                return null;
+            }
         }
     }
 
     // Asynchronous
     public void queryInventory(final IabHelper.QueryInventoryFinishedListener listener) {
         synchronized (sLock) {
-            mHelper.queryInventoryAsync(listener);
+            if (mHelper.isSetupDone()) {
+                mHelper.queryInventoryAsync(listener);
+            }
         }
     }
 
@@ -74,14 +80,18 @@ public final class BillingController {
     public void purchase(final Activity activity, final String sku,
                          final IabHelper.OnIabPurchaseFinishedListener listener) {
         synchronized (sLock) {
-            mHelper.launchPurchaseFlow(activity, sku, PURCHASE_REQUEST_CODE,
+            if (mHelper.isSetupDone()) {
+                mHelper.launchPurchaseFlow(activity, sku, PURCHASE_REQUEST_CODE,
                     listener, "bGoa+V7g/yqDXvKRqq+JTFn4uQZbPiQJo4pf9RzJ");
+            }
         }
     }
 
     public void onActivityResult(final int request, final int response, final Intent data) {
         synchronized (sLock) {
-            mHelper.handleActivityResult(request, response, data);
+            if (mHelper.isSetupDone()) {
+                mHelper.handleActivityResult(request, response, data);
+            }
         }
     }
 }

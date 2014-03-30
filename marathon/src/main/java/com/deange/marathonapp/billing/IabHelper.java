@@ -786,6 +786,10 @@ public class IabHelper {
         }
     }
 
+    public final boolean isSetupDone() {
+        return mSetupDone;
+    }
+
     // Workaround to bug where sometimes response codes come as Long instead of Integer
     int getResponseCodeFromBundle(Bundle b) {
         Object o = b.get(RESPONSE_CODE);
