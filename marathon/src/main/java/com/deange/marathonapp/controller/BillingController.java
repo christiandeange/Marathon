@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.deange.marathonapp.billing.BillingConstants;
 import com.deange.marathonapp.billing.IabException;
 import com.deange.marathonapp.billing.IabHelper;
@@ -68,6 +69,7 @@ public final class BillingController {
                 return mHelper.queryInventory(true, null);
 
             } else {
+                // This must be synchronous, so we can't use ProcessList
                 return null;
             }
         }
@@ -89,6 +91,7 @@ public final class BillingController {
                 queryProcess.run();
 
             } else {
+                Crashlytics.log("queryInventory() called before IAB was set up");
                 mProcessList.admitProcess(queryProcess);
             }
 
@@ -113,6 +116,7 @@ public final class BillingController {
                 purchaseProcess.run();
 
             } else {
+                Crashlytics.log("purchase() called before IAB was set up");
                 mProcessList.admitProcess(purchaseProcess);
             }
         }
@@ -132,6 +136,7 @@ public final class BillingController {
                 resultProcess.run();
 
             } else {
+                Crashlytics.log("onActivityResult() called before IAB was set up");
                 mProcessList.admitProcess(resultProcess);
             }
 
