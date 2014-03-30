@@ -11,25 +11,22 @@ import android.widget.PopupMenu;
 
 import com.crashlytics.android.Crashlytics;
 import com.deange.marathonapp.BuildConfig;
+import com.deange.marathonapp.R;
 import com.deange.marathonapp.billing.AdDelegate;
 import com.deange.marathonapp.billing.BillingConstants;
 import com.deange.marathonapp.billing.BillingConstants2;
 import com.deange.marathonapp.billing.IabHelper;
 import com.deange.marathonapp.billing.IabResult;
+import com.deange.marathonapp.controller.AchievementsController;
+import com.deange.marathonapp.controller.BillingController;
+import com.deange.marathonapp.controller.StateController;
+import com.deange.marathonapp.google.BaseGameActivity;
 import com.deange.marathonapp.google.CloudHelper;
 import com.deange.marathonapp.model.Inventory;
 import com.deange.marathonapp.model.Purchase;
-import com.deange.marathonapp.controller.AchievementsController;
-import com.deange.marathonapp.controller.BillingController;
-import com.deange.marathonapp.google.GoogleClients;
 import com.deange.marathonapp.utils.PlatformUtils;
-import com.deange.marathonapp.R;
-import com.deange.marathonapp.controller.StateController;
-import com.deange.marathonapp.google.BaseGameActivity;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.appstate.OnStateLoadedListener;
-import com.google.android.gms.games.GamesClient;
 
 public class MainActivity
         extends BaseGameActivity
