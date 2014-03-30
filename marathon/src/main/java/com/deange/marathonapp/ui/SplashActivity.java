@@ -11,9 +11,7 @@ import com.crashlytics.android.Crashlytics;
 import com.deange.marathonapp.R;
 import com.deange.marathonapp.google.BaseGameActivity;
 import com.deange.marathonapp.google.CloudHelper;
-import com.deange.marathonapp.google.GoogleClients;
 import com.deange.marathonapp.utils.Utils;
-import com.google.android.gms.appstate.OnStateLoadedListener;
 
 public class SplashActivity
         extends BaseGameActivity {

@@ -3,20 +3,13 @@ package com.deange.marathonapp.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.RelativeLayout;
 
 import com.crashlytics.android.Crashlytics;
 import com.deange.marathonapp.R;
-import com.deange.marathonapp.google.GoogleClients;
-import com.deange.marathonapp.ui.view.LogoView;
-import com.deange.marathonapp.ui.view.ShimmerTextView;
-import com.deange.marathonapp.utils.Utils;
-import com.deange.marathonapp.controller.StateController;
 import com.deange.marathonapp.google.BaseGameActivity;
 import com.deange.marathonapp.google.CloudHelper;
-import com.deange.marathonapp.model.CloudInfo;
+import com.deange.marathonapp.ui.view.ShimmerTextView;
 import com.google.android.gms.appstate.OnStateLoadedListener;
 
 public class LoginActivity

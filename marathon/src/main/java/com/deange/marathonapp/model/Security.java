@@ -20,7 +20,6 @@ import android.util.Log;
 
 import com.deange.marathonapp.utils.Base64;
 
-
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
