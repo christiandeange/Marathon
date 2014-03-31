@@ -837,6 +837,9 @@ public class IabHelper {
         mAsyncInProgress = false;
     }
 
+    public boolean isAsynchronouslyBusy() {
+        return mAsyncInProgress;
+    }
 
     int queryPurchases(Inventory inv, String itemType) throws JSONException, RemoteException {
         // Query purchases

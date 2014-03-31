@@ -49,7 +49,7 @@ public final class BillingController {
             public void onIabSetupFinished(final IabResult result) {
                 if (result.isSuccess()) {
                     // If there is no issue, we should run all of our backed-up processes.
-                    mProcessList.processAll();
+                    onAsyncOperationEnd();
 
                 } else {
                     // Oh noes, there was a problem!
@@ -87,7 +87,7 @@ public final class BillingController {
             };
 
 
-            if (mHelper.isSetupDone()) {
+            if (!isBusy()) {
                 queryProcess.run();
 
             } else {
@@ -112,7 +112,7 @@ public final class BillingController {
             };
 
 
-            if (mHelper.isSetupDone()) {
+            if (!isBusy()) {
                 purchaseProcess.run();
 
             } else {
@@ -132,7 +132,7 @@ public final class BillingController {
                 }
             };
 
-            if (mHelper.isSetupDone()) {
+            if (!mHelper.isSetupDone()) {
                 resultProcess.run();
 
             } else {
@@ -140,6 +140,23 @@ public final class BillingController {
                 mProcessList.admitProcess(resultProcess);
             }
 
+        }
+    }
+
+    private boolean isBusy() {
+        return mHelper.isAsynchronouslyBusy() || !mHelper.isSetupDone();
+    }
+
+    public void onAsyncOperationEnd() {
+        // If there were other things queued, process them at this time
+        while (!mProcessList.isEmpty()) {
+
+            if (isBusy()) {
+                // Cannot do the rest now!
+                break;
+            }
+
+            mProcessList.process();
         }
     }
 }

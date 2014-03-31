@@ -418,7 +418,7 @@ public class GameHelper
         }
     }
 
-    void killConnections() {
+    public void killConnections() {
         if (!checkState(TYPE_GAMEHELPER_BUG, "killConnections", "killConnections() should only " +
                 "get called while connected or connecting.", STATE_CONNECTED, STATE_CONNECTING)) {
             return;

@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,17 +23,20 @@ import com.deange.marathonapp.controller.BillingController;
 import com.deange.marathonapp.controller.StateController;
 import com.deange.marathonapp.google.BaseGameActivity;
 import com.deange.marathonapp.google.CloudHelper;
+import com.deange.marathonapp.google.GameHelper;
 import com.deange.marathonapp.model.Inventory;
 import com.deange.marathonapp.model.Purchase;
 import com.deange.marathonapp.utils.PlatformUtils;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.games.GamesActivityResultCodes;
 
 public class MainActivity
         extends BaseGameActivity
         implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, AdDelegate.Listener<InterstitialAd> {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final int REQUEST_CODE_GMS = 42;
 
     private static final String KEY_SHOW_AD = TAG + ".show_ad";
     private static final String KEY_LOADED_INVENTORY = TAG + ".loaded_inv";
@@ -41,6 +45,7 @@ public class MainActivity
     private MenuItem mRemoveAdsItem;
     private boolean mShowAd = true;
     private boolean mLoadedInventory = false;
+    private final Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -117,6 +122,7 @@ public class MainActivity
                 // Naïve implementation: check the inventory after any purchase
                 checkInventory();
 
+                BillingController.getInstance().onAsyncOperationEnd();
             }
         });
 
@@ -149,6 +155,10 @@ public class MainActivity
                     }
                 }
 
+                // Disable ads button may no longer be necessary
+                supportInvalidateOptionsMenu();
+
+                BillingController.getInstance().onAsyncOperationEnd();
             }
         });
     }

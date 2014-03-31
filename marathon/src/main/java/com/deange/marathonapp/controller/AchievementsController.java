@@ -3,7 +3,9 @@ package com.deange.marathonapp.controller;
 import android.content.Context;
 
 import com.deange.marathonapp.R;
+import com.deange.marathonapp.google.BaseGameActivity;
 import com.deange.marathonapp.google.GoogleClients;
+import com.deange.marathonapp.ui.MarathonFragment;
 import com.deange.marathonapp.ui.view.MarathonView;
 import com.google.android.gms.games.GamesClient;
 
