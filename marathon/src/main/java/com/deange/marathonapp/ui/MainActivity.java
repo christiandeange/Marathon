@@ -80,6 +80,20 @@ public class MainActivity
     }
 
     @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // User may have signed out from Achievements/Leaderboards page
+        // We need to catch this ourselves and show the login page again
+        if (requestCode == REQUEST_CODE_GMS && resultCode == GamesActivityResultCodes.RESULT_RECONNECT_REQUIRED) {
+
+            // SecurityException is raised when we attempt a true sign out
+            mHelper.killConnections();
+            onSignOutSucceeded();
+        }
+    }
+
+    @Override
     public boolean onMenuItemClick(final MenuItem item) {
 
         boolean handled = false;
@@ -180,13 +194,12 @@ public class MainActivity
     }
 
     private void handleAchievements() {
-        startActivityForResult(getGamesClient().getAchievementsIntent(), 0);
+        startActivityForResult(getGamesClient().getAchievementsIntent(), REQUEST_CODE_GMS);
     }
 
     private void handleLeaderBoards() {
-        AchievementsController.getInstance().notifyLeaderBoardImmediate(
-                StateController.getInstance().getMilesRan());
-        startActivityForResult(getGamesClient().getLeaderboardIntent(getString(R.string.leaderboard_total_distance_ran)), 0);
+        AchievementsController.getInstance().notifyLeaderBoardImmediate(StateController.getInstance().getMilesRan());
+        startActivityForResult(getGamesClient().getLeaderboardIntent(getString(R.string.leaderboard_total_distance_ran)), REQUEST_CODE_GMS);
     }
 
     private void handleSignout() {

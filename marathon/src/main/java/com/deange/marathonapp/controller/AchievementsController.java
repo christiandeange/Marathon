@@ -55,36 +55,37 @@ public final class AchievementsController {
         }
     }
 
-    public void notifyMileRan(final int mile) {
+    public void notifyMileRan(final BaseGameActivity activity, final int mile) {
 
         synchronized (sLock) {
 
-            if (GoogleClients.getInstance().getGamesClient().isConnected()) {
+            final GamesClient client = activity.getGamesClient();
+            if (client.isConnected()) {
 
                 // Check for all the achievements that can be unlocked
                 if (shouldUnlock(mile, MILE_THIS_IS_THE_END)) {
-                    unlock(R.string.achievement_this_is_the_end, MILE_THIS_IS_THE_END);
+                    unlock(client, R.string.achievement_this_is_the_end, MILE_THIS_IS_THE_END);
 
                 } else if (shouldUnlock(mile, MILE_100_LIGHT_MS)) {
-                    unlock(R.string.achievement_buzz_lighthundredmilliseconds, MILE_100_LIGHT_MS);
+                    unlock(client, R.string.achievement_buzz_lighthundredmilliseconds, MILE_100_LIGHT_MS);
 
                 } else if (shouldUnlock(mile, MILE_GREAT_WALL_OF_CHINA)) {
-                    unlock(R.string.achievement_walk_the_wall, MILE_GREAT_WALL_OF_CHINA);
+                    unlock(client, R.string.achievement_walk_the_wall, MILE_GREAT_WALL_OF_CHINA);
 
                 } else if (shouldUnlock(mile, MILE_MOON)) {
-                    unlock(R.string.achievement_one_giant_marathon_for_mankind, MILE_MOON);
+                    unlock(client, R.string.achievement_one_giant_marathon_for_mankind, MILE_MOON);
 
                 } else if (shouldUnlock(mile, MILE_NILE_RIVER)) {
-                    unlock(R.string.achievement_walk_the_nile, MILE_NILE_RIVER);
+                    unlock(client, R.string.achievement_walk_the_nile, MILE_NILE_RIVER);
 
                 } else if (shouldUnlock(mile, MILE_500_MORE)) {
-                    unlock(R.string.achievement_and_i_would_walk_500_more, MILE_500_MORE);
+                    unlock(client, R.string.achievement_and_i_would_walk_500_more, MILE_500_MORE);
 
                 } else if (shouldUnlock(mile, MILE_500)) {
-                    unlock(R.string.achievement_i_would_walk_500_miles, MILE_500);
+                    unlock(client, R.string.achievement_i_would_walk_500_miles, MILE_500);
 
                 } else if (shouldUnlock(mile, MILE_MARATHON)) {
-                    unlock(R.string.achievement_marathon_man, MILE_MARATHON);
+                    unlock(client, R.string.achievement_marathon_man, MILE_MARATHON);
                 }
 
                 // Submit score to leaderboards
@@ -110,12 +111,13 @@ public final class AchievementsController {
         return (miles >= achievementLimit) && (!mAchievements.contains(achievementLimit));
     }
 
-    private void unlock(final int achievementResId, final int achievementLimit) {
-        final GamesClient client = GoogleClients.getInstance().getGamesClient();
+    private void unlock(final GamesClient client, final int achievementResId, final int achievementLimit) {
         final String achievement = mContext.getString(achievementResId);
         mAchievements.add(achievementLimit);
 
-        client.unlockAchievement(achievement);
+        if (client.isConnected()) {
+            client.unlockAchievement(achievement);
+        }
     }
 
     private void submit(final int mile) {

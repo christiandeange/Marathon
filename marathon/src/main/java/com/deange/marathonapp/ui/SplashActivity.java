@@ -96,9 +96,11 @@ public class SplashActivity
 
         CloudHelper.getState(new CloudHelper.SimpleStateListenerDelegate(), CloudHelper.KEY_GAME_STATE);
 
-        final String accountName = getPlusClient().getAccountName();
-        Log.v(TAG, "Account: " + accountName);
-        Crashlytics.setUserEmail(accountName);
+        if (getPlusClient().isConnected()) {
+            final String accountName = getPlusClient().getAccountName();
+            Log.v(TAG, "Account: " + accountName);
+            Crashlytics.setUserEmail(accountName);
+        }
     }
 
     @Override

@@ -93,7 +93,7 @@ public class MarathonFragment
         StateController.getInstance().setMilesRan(mile);
 
         // Notify the achievements controller of a mile update
-        AchievementsController.getInstance().notifyMileRan(mile);
+        AchievementsController.getInstance().notifyMileRan(getBaseActivity(), mile);
 
         if (mile % MILES_UPDATE_STATE_INTERVAL == 0) {
             // Currently we will update the info on every
