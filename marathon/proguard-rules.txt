@@ -46,7 +46,13 @@
     public static ** valueOf(java.lang.String);
 }
 
-# Keep Prcelable Creators
+# Keep Parcelable Creators
 -keep class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator *;
+}
+
+# Remove Log calls
+-assumenosideeffects class android.util.Log {
+    public static *** d(...);
+    public static *** v(...);
 }
