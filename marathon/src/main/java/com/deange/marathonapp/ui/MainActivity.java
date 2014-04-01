@@ -136,6 +136,12 @@ public class MainActivity
                 // Naïve implementation: check the inventory after any purchase
                 checkInventory();
 
+                if (mRemoveAdsItem != null) {
+                    // Show the button if they did not buy anything
+                    final boolean canBuyIAP = (purchase == null || !BillingConstants2.SKU_TEST.equals(purchase.getSku()));
+                    mRemoveAdsItem.setVisible(canBuyIAP);
+                }
+
                 BillingController.getInstance().onAsyncOperationEnd();
             }
         });
@@ -161,7 +167,7 @@ public class MainActivity
                     Log.d(TAG, "purchase = " + purchase);
 
                     // If mShowAd is false, we want it to stay false
-                    mShowAd = mShowAd && (purchase == null);
+                    mShowAd &= (purchase == null);
                     showAdIfNecessary();
 
                     if (mRemoveAdsItem != null) {

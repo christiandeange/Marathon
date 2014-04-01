@@ -92,7 +92,7 @@ public final class BillingController {
 
             } else {
                 Crashlytics.log("queryInventory() called before IAB was set up");
-                mProcessList.admitProcess(queryProcess);
+//                mProcessList.admitProcess(queryProcess);
             }
 
         }
@@ -117,7 +117,7 @@ public final class BillingController {
 
             } else {
                 Crashlytics.log("purchase() called before IAB was set up");
-                mProcessList.admitProcess(purchaseProcess);
+//                mProcessList.admitProcess(purchaseProcess);
             }
         }
     }
@@ -137,7 +137,7 @@ public final class BillingController {
 
             } else {
                 Crashlytics.log("onActivityResult() called before IAB was set up");
-                mProcessList.admitProcess(resultProcess);
+//                mProcessList.admitProcess(resultProcess);
             }
 
         }
