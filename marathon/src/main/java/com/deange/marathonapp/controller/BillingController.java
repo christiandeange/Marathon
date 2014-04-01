@@ -132,7 +132,7 @@ public final class BillingController {
                 }
             };
 
-            if (!mHelper.isSetupDone()) {
+            if (mHelper.isSetupDone()) {
                 resultProcess.run();
 
             } else {
