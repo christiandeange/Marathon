@@ -848,6 +848,11 @@ public class IabHelper {
         boolean verificationFailed = false;
         String continueToken = null;
 
+        if (mService == null) {
+            logDebug("Service is null, returning could not queryPurchases()");
+            return IABHELPER_BAD_RESPONSE;
+        }
+
         do {
             logDebug("Calling getPurchases with continuation token: " + continueToken);
             Bundle ownedItems = mService.getPurchases(3, mContext.getPackageName(),
